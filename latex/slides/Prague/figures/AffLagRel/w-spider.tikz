@@ -1,0 +1,41 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (19) at (-1, 0.75) {};
+		\node [style=none] (20) at (2, 0.75) {};
+		\node [style=none] (21) at (2, -0.75) {};
+		\node [style=none] (22) at (-1, -0.75) {};
+		\node [style=wn] (23) at (0.5, 0) {};
+		\node [style=none] (24) at (1.5, 0.5) {};
+		\node [style=none] (25) at (1.5, -0.5) {};
+		\node [style=none] (26) at (-0.5, 0.5) {};
+		\node [style=none] (27) at (-0.5, -0.5) {};
+		\node [style=none] (28) at (-0.525, 0) {$m$};
+		\node [style=none] (29) at (2, 0.5) {};
+		\node [style=none] (30) at (2, -0.5) {};
+		\node [style=none] (35) at (0, 0.2) {$\vdots$};
+		\node [style=none] (36) at (1.375, 0) {$n$};
+		\node [style=none] (37) at (1, 0.2) {$\vdots$};
+		\node [style=none] (38) at (-1, 0.5) {};
+		\node [style=none] (39) at (-1, -0.5) {};
+		\node [style=wphase] (18) at (0.5, 0.5) {$a,b$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=background] (21.center)
+			 to (20.center)
+			 to (19.center)
+			 to (22.center)
+			 to cycle;
+		\draw (23)
+			 to [in=180, out=60] (24.center)
+			 to (29.center);
+		\draw (30.center)
+			 to (25.center)
+			 to [in=-60, out=180] (23);
+		\draw (38.center)
+			 to (26.center)
+			 to [in=120, out=360] (23);
+		\draw (39.center)
+			 to (27.center)
+			 to [in=-120, out=0] (23);
+	\end{pgfonlayer}
+\end{tikzpicture}

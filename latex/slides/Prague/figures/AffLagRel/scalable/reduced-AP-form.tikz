@@ -1,0 +1,34 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (-11.675, 2) {};
+		\node [style=none] (1) at (7.5, 2) {};
+		\node [style=none] (2) at (7.5, -2) {};
+		\node [style=none] (3) at (-11.675, -2) {};
+		\node [style=gbn] (4) at (0.5, 0) {};
+		\node [style=divide] (5) at (2.75, 0) {};
+		\node [style=gbn] (6) at (4.75, 0.5) {};
+		\node [style=none] (8) at (4.25, -0.5) {};
+		\node [style=bphase] (9) at (-3.75, 0) {$\begin{bmatrix} \vec{x} \\ 0_m \\ \vec{s} \end{bmatrix}, \begin{bmatrix} 0 & 1_m & F \\ 1_m & 0 & 0 \\ F^\trans & 0 & S \end{bmatrix}$};
+		\node [style=wirelable] (10) at (1.625, 0.25) {$m+n$};
+		\node [style=none] (11) at (4.25, 0.5) {};
+		\node [style=wirelable] (12) at (4.25, -0.25) {$n$};
+		\node [style=wirelable] (13) at (4.25, 0.25) {$m$};
+		\node [style=lmatt] (14) at (6, -0.5) {\(\varsigma\)};
+		\node [style=none] (15) at (7.5, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=background] (2.center)
+			 to (1.center)
+			 to (0.center)
+			 to (3.center)
+			 to [in=180, out=0] cycle;
+		\draw [style=very thick] (5)
+			 to [in=180, out=-45] (8.center)
+			 to (14);
+		\draw [style=very thick] (4) to (5);
+		\draw [style=very thick] (6)
+			 to (11.center)
+			 to [in=45, out=-180] (5);
+		\draw [style=very thick] (15.center) to (14);
+	\end{pgfonlayer}
+\end{tikzpicture}

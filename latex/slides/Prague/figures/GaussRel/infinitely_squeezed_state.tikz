@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (8) at (0.5, 0.5) {};
+		\node [style=none] (9) at (-1.75, 0.5) {};
+		\node [style=none] (10) at (-1.75, -0.5) {};
+		\node [style=none] (11) at (0.5, -0.5) {};
+		\node [style=none] (4) at (0, 0) {};
+		\node [style=none] (5) at (0, 0) {};
+		\node [style=wn] (6) at (0, 0) {};
+		\node [style=none] (7) at (0.5, 0) {};
+		\node [style=wphase] (15) at (-1, 0) {$0,0$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=background] (8.center)
+			 to (11.center)
+			 to (10.center)
+			 to (9.center)
+			 to cycle;
+		\draw (7.center) to (6);
+	\end{pgfonlayer}
+\end{tikzpicture}

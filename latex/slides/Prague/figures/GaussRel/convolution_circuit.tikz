@@ -1,0 +1,67 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (4.5, -1.425) {};
+		\node [style=none] (1) at (1, -1.425) {};
+		\node [style=none] (2) at (1, 1.2) {};
+		\node [style=none] (3) at (4.5, 1.2) {};
+		\node [style=wn] (4) at (3.75, 0.45) {};
+		\node [style=none] (5) at (4.5, 0.45) {};
+		\node [style=none] (6) at (1, 0.45) {};
+		\node [style=wn] (7) at (1.75, -0.3) {};
+		\node [style=rmat] (8) at (2.75, -0.3) {\(\sqrt \epsilon\)};
+		\node [style=wphase] (9) at (1.75, -1.025) {\(0,i\)};
+		\node [style=none] (10) at (8, -1.425) {};
+		\node [style=none] (11) at (5.5, -1.425) {};
+		\node [style=none] (12) at (5.5, 1.2) {};
+		\node [style=none] (13) at (8, 1.2) {};
+		\node [style=wn] (14) at (7.25, 0.45) {};
+		\node [style=none] (15) at (8, 0.45) {};
+		\node [style=none] (16) at (5.5, 0.45) {};
+		\node [style=wn] (17) at (6.25, -0.3) {};
+		\node [style=wphase] (18) at (6.25, -1.025) {\(0,i\epsilon\)};
+		\node [style=none] (19) at (5, -0.05) {=};
+		\node [style=none] (20) at (11, -1.425) {};
+		\node [style=none] (21) at (9, -1.425) {};
+		\node [style=none] (22) at (9, 1.2) {};
+		\node [style=none] (23) at (11, 1.2) {};
+		\node [style=wn] (24) at (10, 0.45) {};
+		\node [style=none] (25) at (11, 0.45) {};
+		\node [style=none] (26) at (9, 0.45) {};
+		\node [style=wphase] (27) at (10, -0.275) {\(0,i\epsilon\)};
+		\node [style=none] (28) at (8.5, -0.05) {=};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=background] (0.center)
+			 to (3.center)
+			 to (2.center)
+			 to (1.center)
+			 to cycle;
+		\draw (6.center) to (4);
+		\draw (4) to (5.center);
+		\draw [in=0, out=-120] (4) to (8);
+		\draw (8) to (7);
+		\draw [style=background] (10.center)
+			 to (13.center)
+			 to (12.center)
+			 to (11.center)
+			 to cycle;
+		\draw [style=background] (10.center) to (13.center);
+		\draw [style=background] (13.center) to (12.center);
+		\draw [style=background] (12.center) to (11.center);
+		\draw [style=background] (11.center) to (10.center);
+		\draw (16.center) to (14);
+		\draw (14) to (15.center);
+		\draw [in=-120, out=0, looseness=0.75] (17) to (14);
+		\draw [style=background] (20.center)
+			 to (23.center)
+			 to (22.center)
+			 to (21.center)
+			 to cycle;
+		\draw [style=background] (20.center) to (23.center);
+		\draw [style=background] (23.center) to (22.center);
+		\draw [style=background] (22.center) to (21.center);
+		\draw [style=background] (21.center) to (20.center);
+		\draw (26.center) to (24);
+		\draw (24) to (25.center);
+	\end{pgfonlayer}
+\end{tikzpicture}

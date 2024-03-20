@@ -1,0 +1,83 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (126) at (-0.0249992, 0.35) {};
+		\node [style=none] (127) at (2.6, 0.35) {};
+		\node [style=none] (128) at (-0.0249992, -0.55) {};
+		\node [style=none] (129) at (2.6, -0.55) {};
+		\node [style=bn] (131) at (2.1, -0.25) {};
+		\node [style=none] (133) at (-0.0249992, -0.25) {};
+		\node [style=none] (134) at (2.6, -0.25) {};
+		\node [style=bphase] (137) at (0, 0.425) {$0,i\varepsilon$};
+		\node [style=wn] (138) at (1.35, 0.075) {};
+		\node [style=bn] (139) at (0.725001, 0.075) {};
+		\node [style=wphase] (140) at (2.45, 0.425) {$a,0$};
+		\node [style=none] (141) at (3.6, 0.35) {};
+		\node [style=none] (142) at (5.8, 0.35) {};
+		\node [style=none] (143) at (3.6, -0.55) {};
+		\node [style=none] (144) at (5.8, -0.55) {};
+		\node [style=bn] (145) at (5.3, -0.25) {};
+		\node [style=none] (146) at (3.6, -0.25) {};
+		\node [style=none] (147) at (5.8, -0.25) {};
+		\node [style=wn] (149) at (4.55, 0.075) {};
+		\node [style=bn] (150) at (3.925, 0.075) {};
+		\node [style=wphase] (151) at (5.65, 0.425) {$a,0$};
+		\node [style=none] (152) at (6.8, 0.1) {};
+		\node [style=none] (153) at (7.675, 0.1) {};
+		\node [style=none] (154) at (6.8, -0.55) {};
+		\node [style=none] (155) at (7.675, -0.55) {};
+		\node [style=none] (157) at (6.8, -0.25) {};
+		\node [style=none] (158) at (7.675, -0.25) {};
+		\node [style=none] (159) at (6.325, -0.25) {$=$};
+		\node [style=none] (160) at (3.125, -0.25) {$=$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=background] (129.center) to (127.center);
+		\draw [style=background] (127.center) to (126.center);
+		\draw [style=background] (126.center) to (128.center);
+		\draw [style=background] (128.center) to (129.center);
+		\draw [style=background] (128.center)
+			 to (129.center)
+			 to (127.center)
+			 to (126.center)
+			 to cycle;
+		\draw [style=background] (126.center) to (128.center);
+		\draw [style=background] (128.center) to (129.center);
+		\draw [style=background] (129.center) to (127.center);
+		\draw [style=background] (127.center) to (126.center);
+		\draw [in=0, out=135] (131) to (138);
+		\draw (139) to (138);
+		\draw (133.center) to (131);
+		\draw (131) to (134.center);
+		\draw [style=background] (144.center) to (142.center);
+		\draw [style=background] (142.center) to (141.center);
+		\draw [style=background] (141.center) to (143.center);
+		\draw [style=background] (143.center) to (144.center);
+		\draw [style=background] (143.center)
+			 to (144.center)
+			 to (142.center)
+			 to (141.center)
+			 to cycle;
+		\draw [style=background] (141.center) to (143.center);
+		\draw [style=background] (143.center) to (144.center);
+		\draw [style=background] (144.center) to (142.center);
+		\draw [style=background] (142.center) to (141.center);
+		\draw [in=0, out=135] (145) to (149);
+		\draw (150) to (149);
+		\draw (146.center) to (145);
+		\draw (145) to (147.center);
+		\draw [style=background] (155.center) to (153.center);
+		\draw [style=background] (153.center) to (152.center);
+		\draw [style=background] (152.center) to (154.center);
+		\draw [style=background] (154.center) to (155.center);
+		\draw [style=background] (154.center)
+			 to (155.center)
+			 to (153.center)
+			 to (152.center)
+			 to cycle;
+		\draw [style=background] (152.center) to (154.center);
+		\draw [style=background] (154.center) to (155.center);
+		\draw [style=background] (155.center) to (153.center);
+		\draw [style=background] (153.center) to (152.center);
+		\draw (157.center) to (158.center);
+	\end{pgfonlayer}
+\end{tikzpicture}

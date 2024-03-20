@@ -1,0 +1,273 @@
+% Keep the size of this file to a minimum to reduce preview compilation time in TikZiT %
+
+
+\newcommand{\labelscaling}{1.2}
+\newcommand{\spiderscaling}{.66}
+\newcommand{\boxscaling}{.85}
+\newcommand{\arrowangle}{142}
+\newcommand{\arrowscaling}{1}
+
+% Shorter minus sign
+\newcommand{\minu}{\texttt{-}}
+\newcommand{\plus}{\texttt{+}}
+
+
+\definecolor{dark_grey}{RGB}{70,70,70}
+\definecolor{zx_grey}{RGB}{211,211,211}
+\definecolor{zx_grey_thick}{RGB}{180,180,180}
+\definecolor{zx_red}{RGB}{232,165,165}
+\definecolor{zx_green}{RGB}{216,248,216}
+
+\pgfdeclarelayer{backlayer} 
+\pgfdeclarelayer{labeltextlayer} 
+\pgfdeclarelayer{frontlayer} 
+\pgfsetlayers{backlayer,main,edgelayer,nodelayer,labeltextlayer,frontlayer}  % set the order of the layers (main is the standard layer)
+
+%had to rename these nodes, because tikzit can't parse it
+
+\tikzset{gvoidtemp/.style={outer sep=0mm, inner sep=1.1mm, path picture={
+      \node [style=gvoidshape]  at (0, 0) {};
+      \filldraw (0,0) circle (1pt);
+  }}
+}
+
+\tikzset{voidtemp/.style={outer sep=0mm, inner sep=1mm, path picture={
+      \node [style=voidshape]  at (0, 0) {};
+      \filldraw (0,0) circle (1pt);
+  }}
+}
+
+
+%\tikzexternalize[prefix=figures/]
+
+%\tikzset{every picture/.append style={remember picture, overlay}}
+%%% see https://tex.stackexchange.com/a/20426
+\makeatletter
+\pgfkeys{%
+  /tikz/on layer/.code={
+    \pgfonlayer{#1}\begingroup
+    \aftergroup\endpgfonlayer
+    \aftergroup\endgroup
+  },
+  /tikz/node on layer/.code={
+    \gdef\node@@on@layer{%
+      \setbox\tikz@tempbox=\hbox\bgroup\pgfonlayer{#1}\unhbox\tikz@tempbox\endpgfonlayer\egroup}
+    \aftergroup\node@on@layer
+  },
+  /tikz/end node on layer/.code={
+    \endpgfonlayer\endgroup\endgroup
+  }
+}
+\def\node@on@layer{\aftergroup\node@@on@layer}
+\makeatother
+%%%
+
+
+\pgfdeclareradialshading{whiteballshading}{\pgfqpoint{8bp}{8bp}}{%
+  color(0bp)=(white);
+  color(30bp)=(black!20)
+}
+\pgfdeclareradialshading{blackballshading}{\pgfqpoint{8bp}{8bp}}{%
+  color(0bp)=(black!60);
+  color(30bp)=(black!80)
+}
+\pgfdeclareradialshading{hadballshading}{\pgfqpoint{8bp}{8bp}}{%
+  color(0bp)=(zx_grey);
+  color(30bp)=(zx_grey_thick)
+}
+\pgfdeclareradialshading{matballshading}{\pgfqpoint{8bp}{8bp}}{%
+  color(0bp)=(zx_grey!80);
+  color(30bp)=(zx_grey_thick);
+  color(50bp)=(zx_grey_thick)
+}
+\pgfdeclareradialshading{divideballshading}{\pgfqpoint{10bp}{10bp}}{%
+  color(0bp)=(zx_grey);
+  color(30bp)=(zx_grey_thick)
+}
+\pgfdeclareradialshading{gatherballshading}{\pgfqpoint{0bp}{-10bp}}{%
+  color(0bp)=(zx_grey);
+  color(30bp)=(zx_grey_thick)
+}
+
+
+%
+%\pgfuseshading{whiteballshading}
+%\pgfuseshading{blackballshading}
+%\pgfuseshading{hadballshading}
+%\pgfuseshading{matballshading}
+%\pgfuseshading{divideballshading}
+%\pgfuseshading{gatherballshading}
+
+
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest, compat/show suggested version=false}
+
+\newcommand{\tikzrefsize}[1]{\ifmmode{\scriptscriptstyle{#1}}\else{\tiny{#1}}\fi}
+\newcommand{\tikzref}[1]{\tikzrefsize{\eqref{#1}}}
+\newcommand{\tikzeqref}[1]{\tikzrefsize{\textsc{(Eq~\ref{#1})}}}
+\newcommand{\tikzlemref}[1]{\tikzrefsize{\textsc{(Lem~\ref{#1})}}}
+\newcommand{\tikzpropref}[1]{\tikzrefsize{\textsc{(Prop~\ref{#1})}}}
+\newcommand{\tikzdefref}[1]{\tikzrefsize{\textsc{(Def~\ref{#1})}}}
+\newcommand{\tikzrefsizesc}[1]{\tikzrefsize{\textsc{#1}}}
+
+
+%GAA references
+\newcommand{\GAAFusionB}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.F.B}})}}
+\newcommand{\GAAFusionW}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.F.W}})}}
+\newcommand{\GAACopyi}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.C.1}})}}
+\newcommand{\GAACopyii}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.C.2}})}}
+\newcommand{\GAACopyiii}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.C.3}})}}
+\newcommand{\GAACopyiv}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.C.4}})}}
+\newcommand{\GAABigebra}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.Bg}})}}
+\newcommand{\GAAAdd}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.Ad}})}}
+\newcommand{\GAAidonei}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.I1.1}})}}
+\newcommand{\GAAidoneii}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.I1.2}})}}
+\newcommand{\GAAidoneiii}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.I1.3}})}}
+\newcommand{\GAAidoneiv}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.I1.4}})}}
+\newcommand{\GAAidzeroi}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.I0.1}})}}
+\newcommand{\GAAidzeroii}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.I0.2}})}}
+\newcommand{\GAAidzeroiii}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.I0.3}})}}
+\newcommand{\GAAidzeroiv}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.I0.4}})}}
+\newcommand{\GAACup}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.Cup}})}}
+\newcommand{\GAACap}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.Cap}})}}
+\newcommand{\GAAdisci}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.Dc.1}})}}
+\newcommand{\GAAdiscii}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.Dc.2}})}}
+\newcommand{\GAAdisciii}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.Dc.3}})}}
+\newcommand{\GAAdisciv}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.Dc.4}})}}
+\newcommand{\GAAEmpty}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.MT}})}}
+\newcommand{\GAAZero}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.0}})}}
+\newcommand{\GAAPhaseid}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.Ps.1}})}}
+\newcommand{\GAAMult}{\tikzrefsizesc{(\hyperref[def:gaa]{{A.Mlt}})}}
+
+\newcommand{\TextGAAFusionB}{{(\hyperref[def:gaa]{\textsc{A.F.B}})}\xspace}
+\newcommand{\TextGAAFusionW}{{(\hyperref[def:gaa]{\textsc{A.F.W}})}\xspace}
+\newcommand{\TextGAACopyi}{{(\hyperref[def:gaa]{\textsc{A.C.1}})}\xspace}
+\newcommand{\TextGAACopyii}{{(\hyperref[def:gaa]{\textsc{A.C.2}})}\xspace}
+\newcommand{\TextGAACopyiii}{{(\hyperref[def:gaa]{\textsc{A.C.3}})}\xspace}
+\newcommand{\TextGAACopyiv}{{(\hyperref[def:gaa]{\textsc{A.C.4}})}\xspace}
+\newcommand{\TextGAABigebra}{{(\hyperref[def:gaa]{\textsc{A.Bg}})}\xspace}
+\newcommand{\TextGAAAdd}{{(\hyperref[def:gaa]{\textsc{A.Ad}})}\xspace}
+\newcommand{\TextGAAidonei}{{(\hyperref[def:gaa]{\textsc{A.I1.1}})}\xspace}
+\newcommand{\TextGAAidoneii}{{(\hyperref[def:gaa]{\textsc{A.I1.2}})}\xspace}
+\newcommand{\TextGAAidoneiii}{{(\hyperref[def:gaa]{\textsc{A.I1.3}})}\xspace}
+\newcommand{\TextGAAidoneiv}{{(\hyperref[def:gaa]{\textsc{A.I1.4}})}\xspace}
+\newcommand{\TextGAAidzeroi}{{(\hyperref[def:gaa]{\textsc{A.I0.1}})}\xspace}
+\newcommand{\TextGAAidzeroii}{{(\hyperref[def:gaa]{\textsc{A.I0.2}})}\xspace}
+\newcommand{\TextGAAidzeroiii}{{(\hyperref[def:gaa]{\textsc{A.I0.3}})}\xspace}
+\newcommand{\TextGAAidzeroiv}{{(\hyperref[def:gaa]{\textsc{A.I0.4}})}\xspace}
+\newcommand{\TextGAACup}{{(\hyperref[def:gaa]{\textsc{A.Cup}})}\xspace}
+\newcommand{\TextGAACap}{{(\hyperref[def:gaa]{\textsc{A.Cap}})}\xspace}
+\newcommand{\TextGAAdisci}{{(\hyperref[def:gaa]{\textsc{A.Dc.1}})}\xspace}
+\newcommand{\TextGAAdiscii}{{(\hyperref[def:gaa]{\textsc{A.Dc.2}})}\xspace}
+\newcommand{\TextGAAdisciii}{{(\hyperref[def:gaa]{\textsc{A.Dc.3}})}\xspace}
+\newcommand{\TextGAAdisciv}{{(\hyperref[def:gaa]{\textsc{A.Dc.4}})}\xspace}
+\newcommand{\TextGAAEmpty}{{(\hyperref[def:gaa]{\textsc{A.MT}})}\xspace}
+\newcommand{\TextGAAZero}{{(\hyperref[def:gaa]{\textsc{A.0}})}\xspace}
+\newcommand{\TextGAAPhaseid}{{(\hyperref[def:gaa]{\textsc{A.Ps.1}})}\xspace}
+\newcommand{\TextGAAMult}{{(\hyperref[def:gaa]{\textsc{A.Mlt}})}\xspace}
+
+
+%GSA references
+\newcommand{\Fusion}{\tikzrefsizesc{(\hyperref[def:zx]{{Fusion}})}}
+\newcommand{\Colour}{\tikzrefsizesc{(\hyperref[def:zx]{{Colour}})}}
+\newcommand{\Copy}{\tikzrefsizesc{(\hyperref[def:zx]{{Copy}})}}
+\newcommand{\Bigebra}{\tikzrefsizesc{(\hyperref[def:zx]{{Bigebra}})}}
+\newcommand{\Zero}{\tikzrefsizesc{(\hyperref[def:zx]{{Zero}})}}
+\newcommand{\One}{\tikzrefsizesc{(\hyperref[def:zx]{{One}})}}
+\newcommand{\HBox}{\tikzrefsizesc{(\hyperref[def:zx]{{Box}})}}
+\newcommand{\Times}{\tikzrefsizesc{(\hyperref[def:zx]{{Times}})}}
+\newcommand{\Plus}{\tikzrefsizesc{(\hyperref[def:zx]{{Plus}})}}
+\newcommand{\Id}{\tikzrefsizesc{(\hyperref[def:zx]{{Id}})}}
+
+\newcommand{\FusionwProof}{\tikzrefsize{(\hyperref[lem:wfusion]{\textsc{WFusion}})}}
+\newcommand{\FusionbProof}{\tikzrefsize{(\hyperref[lem:bfusion]{\textsc{BFusion}})}}
+\newcommand{\ColourProof}{\tikzrefsize{(\hyperref[lem:colour]{\textsc{Colour}})}}
+\newcommand{\CopyProof}{\tikzrefsize{(\hyperref[lem:colour]{\textsc{Copy}})}}
+\newcommand{\BigebraProof}{\tikzrefsize{(\hyperref[lem:bigebra]{\textsc{Bigebra}})}}
+\newcommand{\ZeroProof}{\tikzrefsize{(\hyperref[lem:zero]{\textsc{Zero}})}}
+\newcommand{\OneiProof}{\tikzrefsize{(\hyperref[lem:one]{\textsc{One1}})}}
+\newcommand{\OneiiProof}{\tikzrefsize{(\hyperref[lem:one]{\textsc{One2}})}}
+\newcommand{\HBoxProof}{\tikzrefsize{(\hyperref[lem:box]{\textsc{Box}})}}
+\newcommand{\TimesProof}{\tikzrefsize{(\hyperref[lem:times]{\textsc{Times}})}}
+\newcommand{\PlusProof}{\tikzrefsize{(\hyperref[lem:plus]{\textsc{Plus}})}}
+\newcommand{\IdiProof}{\tikzrefsize{(\hyperref[lem:idi]{\textsc{Id1}})}}
+\newcommand{\IdiiProof}{\tikzrefsize{(\hyperref[lem:idii]{\textsc{Id2}})}}
+
+
+
+\newcommand{\TextFusionB}{\hyperref[thm:GSA]{\textsc{BFusion}}\xspace}
+\newcommand{\TextColour}{\hyperref[thm:GSA]{\textsc{Colour}}\xspace}
+
+\newcommand{\TextCopy}{\hyperref[def:zx]{\textsc{Copy}}\xspace}
+\newcommand{\TextBigebra}{\hyperref[def:zx]{\textsc{Bigebra}}\xspace}
+\newcommand{\TextHBox}{\hyperref[def:zx]{\textsc{Box}}\xspace}
+\newcommand{\TextOne}{\hyperref[def:zx]{\textsc{One}}\xspace}
+\newcommand{\TextZero}{\hyperref[def:zx]{\textsc{Zero}}\xspace}
+\newcommand{\TextTimes}{\hyperref[def:zx]{\textsc{Times}}\xspace}
+\newcommand{\TextPlus}{\hyperref[def:zx]{\textsc{Plus}}\xspace}
+\newcommand{\TextId}{\hyperref[def:zx]{\textsc{Id}}\xspace}
+
+
+%thickened references
+\newcommand{\TFusion}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Fusion}})}}}
+\newcommand{\TColour}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Colour}})}}}
+\newcommand{\TCopy}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Copy}})}}}
+\newcommand{\TBigebra}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Bigebra}})}}}
+\newcommand{\TZero}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Zero}})}}}
+\newcommand{\THBox}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Box}})}}}
+\newcommand{\TTimes}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Times}})}}}
+\newcommand{\TPlus}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Plus}})}}}
+\newcommand{\TIdi}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Id.1}})}}}
+\newcommand{\TIdii}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Id.2}})}}}
+\newcommand{\TIdiii}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Id.3}})}}}
+\newcommand{\TOnei}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.One.1}})}}}
+\newcommand{\TOneii}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.One.2}})}}}
+\newcommand{\TMat}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Mat}})}}}
+\newcommand{\TBlock}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Block}})}}}
+\newcommand{\TZ}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.Z}})}}}
+\newcommand{\TLaxi}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.lax.1}})}}}
+\newcommand{\TLaxii}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.lax.2}})}}}
+\newcommand{\TLaxiii}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.lax.3}})}}}
+\newcommand{\TFBox}{{\tikzrefsizesc{(\hyperref[ssec:axioms_scalable]{{T.F}})}}}
+
+\newcommand{\TTextFusion}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Fusion}})}\xspace}
+\newcommand{\TTextColour}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Colour}})}\xspace}
+\newcommand{\TTextCopy}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Copy}})}\xspace}
+\newcommand{\TTextBigebra}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Bigebra}})}\xspace}
+\newcommand{\TTextZero}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Zero}})}\xspace}
+\newcommand{\TTextHBox}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Box}})}\xspace}
+\newcommand{\TTextTimes}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Times}})}\xspace}
+\newcommand{\TTextPlus}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Plus}})}\xspace}
+\newcommand{\TTextIdi}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Id.1}})}\xspace}
+\newcommand{\TTextIdii}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Id.2}})}\xspace}
+\newcommand{\TTextIdiii}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Id.3}})}\xspace}
+\newcommand{\TTextOnei}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.One.1}})}\xspace}
+\newcommand{\TTextOneii}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.One.2}})}\xspace}
+\newcommand{\TTextMat}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Mat}})}\xspace}
+\newcommand{\TTextBlock}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Block}})}\xspace}
+\newcommand{\TTextZ}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Z}})}\xspace}
+\newcommand{\TTextLaxi}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Lax.1}})}\xspace}
+\newcommand{\TTextLaxii}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Lax.2}})}\xspace}
+\newcommand{\TTextLaxiii}{{(\hyperref[ssec:axioms_scalable]{\textsc{T.Lax.3}})}\xspace}
+
+\newcommand{\TFusionProof}{{\tikzrefsize{\textsc{(\hyperref[lem:scalable_fusion]{T.Fusion})}}}}
+\newcommand{\TColourProof}{{\tikzrefsize{\textsc{(\hyperref[lem:scalable_colour_actual]{T.Colour})}}}}
+\newcommand{\TCopyProof}{{\tikzrefsize{\textsc{(\hyperref[lem:tcopy]{T.Copy})}}}}
+\newcommand{\TBigebraProof}{{\tikzrefsize{\textsc{(\hyperref[lem:tbigebra]{T.Bigebra})}}}}
+\newcommand{\TZeroProof}{{\tikzrefsize{\textsc{(\hyperref[lem:tzero]{T.Zero})}}}}
+\newcommand{\THBoxProof}{{\tikzrefsize{\textsc{(\hyperref[lem:tbox]{T.Box})}}}}
+\newcommand{\TTimesProof}{{\tikzrefsize{\textsc{(\hyperref[lem:ttimes]{T.Times})}}}}
+\newcommand{\TPlusProof}{{\tikzrefsize{\textsc{(\hyperref[lem:tplus]{T.Plus})}}}}
+\newcommand{\TIdiProof}{{\tikzrefsize{\textsc{(\hyperref[?]{T.Id.1})}}}}
+\newcommand{\TIdiiProof}{{\tikzrefsize{\textsc{(\hyperref[?]{T.Id.2})}}}}
+\newcommand{\TIdiiiProof}{{\tikzrefsize{\textsc{(\hyperref[?]{T.Id.3})}}}}
+\newcommand{\TOneiProof}{{\tikzrefsize{\textsc{(\hyperref[?]{T.One.1})}}}}
+\newcommand{\TOneiiProof}{{\tikzrefsize{\textsc{(\hyperref[?]{T.One.2})}}}}
+\newcommand{\TMatProof}{{\tikzrefsize{\textsc{(\hyperref[eq:arrow_decomposition]{T.Mat})}}}}
+\newcommand{\TBlockProof}{{\tikzrefsize{\textsc{(\hyperref[def:scalable_spider]{T.Block})}}}}
+\newcommand{\TZProof}{{\tikzrefsize{\textsc{(\hyperref[?]{T.Z})}}}}
+\newcommand{\TLaxiProof}{{\tikzrefsize{\textsc{(\hyperref[eq:strings_tensor_equations]{T.Lax.1})}}}}
+\newcommand{\TLaxiiProof}{{\tikzrefsize{\textsc{(\hyperref[eq:scalablemonoid]{T.Lax.2})}}}}
+\newcommand{\TLaxiiiProof}{{\tikzrefsize{\textsc{(\hyperref[eq:scalablemonoid]{T.Lax.3})}}}}

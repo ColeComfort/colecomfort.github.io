@@ -1,0 +1,169 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=wirelable] (147) at (-7.625, -0.875) {$k+1$};
+		\node [style=wirelable] (148) at (-5.825, -0.875) {$k+1$};
+		\node [style=wirelable] (149) at (-7.625, 0.375) {$k+1$};
+		\node [style=wirelable] (150) at (-5.825, 0.375) {$k+1$};
+		\node [style=wirelable] (151) at (-2.75, -1.025) {$k$};
+		\node [style=wirelable] (152) at (-1.25, -1.025) {$k$};
+		\node [style=wirelable] (153) at (-2.9, -0.075) {$k$};
+		\node [style=wirelable] (154) at (-1.075, -0.05) {$k$};
+		\node [style=none] (155) at (-3.75, 0.725) {};
+		\node [style=none] (156) at (-0.25, 0.725) {};
+		\node [style=none] (157) at (-0.25, -1.275) {};
+		\node [style=none] (158) at (-3.75, -1.275) {};
+		\node [style=none] (159) at (-8.25, 0.625) {};
+		\node [style=none] (160) at (-5.25, 0.625) {};
+		\node [style=none] (161) at (-5.25, -1.125) {};
+		\node [style=none] (162) at (-8.25, -1.125) {};
+		\node [style=none] (163) at (-4.5, -0.25) {$\coloneqq$};
+		\node [style=bn] (164) at (-2, 0.375) {};
+		\node [style=ggn] (165) at (-2, -0.625) {};
+		\node [style=ggn] (168) at (-6.75, -0.25) {};
+		\node [style=none] (169) at (-6.25, 0.125) {};
+		\node [style=none] (170) at (-6.25, -0.625) {};
+		\node [style=none] (171) at (-7.25, 0.125) {};
+		\node [style=none] (172) at (-7.25, -0.625) {};
+		\node [style=none] (173) at (-7.725, -0.25) {$m$};
+		\node [style=none] (174) at (-7.25, -0.25) {$\vdotss$};
+		\node [style=none] (175) at (-5.375, -0.25) {$n$};
+		\node [style=none] (176) at (-6, -0.25) {$\vdotss$};
+		\node [style=none] (177) at (-8.25, 0.125) {};
+		\node [style=none] (178) at (-8.25, -0.625) {};
+		\node [style=none] (179) at (-3.75, 0.375) {};
+		\node [style=none] (180) at (-3.75, -0.625) {};
+		\node [style=divide] (181) at (-3.25, 0.375) {};
+		\node [style=divide] (182) at (-3.25, -0.625) {};
+		\node [style=none] (183) at (-3.5, -0.125) {$\vdotss$};
+		\node [style=none] (184) at (-2.45, 0.3) {$\vdotss$};
+		\node [style=none] (185) at (-2.5, -0.55) {$\vdotss$};
+		\node [style=none] (186) at (-5.25, 0.125) {};
+		\node [style=none] (187) at (-5.25, -0.625) {};
+		\node [style=none] (188) at (-0.25, 0.375) {};
+		\node [style=none] (189) at (-0.25, -0.625) {};
+		\node [style=gather] (190) at (-0.75, 0.375) {};
+		\node [style=gather] (191) at (-0.75, -0.625) {};
+		\node [style=none] (192) at (-0.5, -0.125) {$\vdotss$};
+		\node [style=none] (193) at (-1.55, 0.3) {$\vdotss$};
+		\node [style=none] (194) at (-1.5, -0.55) {$\vdotss$};
+		\node [style=wirelable] (195) at (1.875, -0.875) {$k+1$};
+		\node [style=wirelable] (196) at (4.675, -0.875) {$k+1$};
+		\node [style=wirelable] (197) at (1.875, 0.375) {$k+1$};
+		\node [style=wirelable] (198) at (4.675, 0.375) {$k+1$};
+		\node [style=wirelable] (199) at (7.75, -1.025) {$k$};
+		\node [style=wirelable] (200) at (9.25, -1.025) {$k$};
+		\node [style=wirelable] (201) at (7.6, -0.075) {$k$};
+		\node [style=wirelable] (202) at (9.425, -0.05) {$k$};
+		\node [style=none] (203) at (6.75, 0.725) {};
+		\node [style=none] (204) at (10.25, 0.725) {};
+		\node [style=none] (205) at (10.25, -1.275) {};
+		\node [style=none] (206) at (6.75, -1.275) {};
+		\node [style=none] (207) at (1.25, 0.625) {};
+		\node [style=none] (208) at (5.25, 0.625) {};
+		\node [style=none] (209) at (5.25, -1.125) {};
+		\node [style=none] (210) at (1.25, -1.125) {};
+		\node [style=none] (211) at (6, -0.25) {$\coloneqq$};
+		\node [style=wn] (212) at (8.5, 0.375) {};
+		\node [style=gwn] (213) at (8.5, -0.625) {};
+		\node [style=gwn] (214) at (3.25, -0.25) {};
+		\node [style=none] (215) at (4, 0.125) {};
+		\node [style=none] (216) at (4, -0.625) {};
+		\node [style=none] (217) at (2.5, 0.125) {};
+		\node [style=none] (218) at (2.5, -0.625) {};
+		\node [style=none] (219) at (1.525, -0.25) {$m$};
+		\node [style=none] (220) at (2.5, -0.25) {$\vdotss$};
+		\node [style=none] (221) at (5.125, -0.25) {$n$};
+		\node [style=none] (222) at (4.5, -0.25) {$\vdotss$};
+		\node [style=none] (223) at (1.25, 0.125) {};
+		\node [style=none] (224) at (1.25, -0.625) {};
+		\node [style=none] (225) at (6.75, 0.375) {};
+		\node [style=none] (226) at (6.75, -0.625) {};
+		\node [style=divide] (227) at (7.25, 0.375) {};
+		\node [style=divide] (228) at (7.25, -0.625) {};
+		\node [style=none] (229) at (7, -0.125) {$\vdotss$};
+		\node [style=none] (230) at (8.05, 0.3) {$\vdotss$};
+		\node [style=none] (231) at (8, -0.55) {$\vdotss$};
+		\node [style=none] (232) at (5.25, 0.125) {};
+		\node [style=none] (233) at (5.25, -0.625) {};
+		\node [style=none] (234) at (10.25, 0.375) {};
+		\node [style=none] (235) at (10.25, -0.625) {};
+		\node [style=gather] (236) at (9.75, 0.375) {};
+		\node [style=gather] (237) at (9.75, -0.625) {};
+		\node [style=none] (238) at (10, -0.125) {$\vdotss$};
+		\node [style=none] (239) at (8.95, 0.3) {$\vdotss$};
+		\node [style=none] (240) at (9, -0.55) {$\vdotss$};
+		\node [style=wphase] (241) at (3.25, 1) {\(\begin{bmatrix}a\\ \vec v\end{bmatrix}\)};
+		\node [style=wphase] (242) at (8.5, -1.25) {\(\vec v\)};
+		\node [style=wphase] (243) at (8.5, 1) {\(a\)};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=background] (157.center)
+			 to (156.center)
+			 to (155.center)
+			 to (158.center)
+			 to cycle;
+		\draw [style=background] (161.center)
+			 to (160.center)
+			 to (159.center)
+			 to (162.center)
+			 to cycle;
+		\draw [style=very thick] (168)
+			 to [in=180, out=60] (169.center)
+			 to (186.center);
+		\draw [style=very thick] (187.center)
+			 to (170.center)
+			 to [in=-60, out=180] (168);
+		\draw [style=very thick] (168)
+			 to [in=360, out=120] (171.center)
+			 to (177.center);
+		\draw [style=very thick] (168)
+			 to [in=0, out=-120] (172.center)
+			 to (178.center);
+		\draw [style=very thick] (180.center) to (182);
+		\draw [style=very thick] (179.center) to (181);
+		\draw [style=very thick, in=135, out=-30] (181) to (165);
+		\draw [in=150, out=30] (181) to (164);
+		\draw [in=-135, out=30] (182) to (164);
+		\draw [style=very thick, in=-150, out=-30] (182) to (165);
+		\draw [style=very thick] (189.center) to (191);
+		\draw [style=very thick] (188.center) to (190);
+		\draw [style=very thick, in=-150, out=-30] (165) to (191);
+		\draw [in=315, out=150] (191) to (164);
+		\draw [in=30, out=150] (190) to (164);
+		\draw [style=very thick, in=45, out=-150] (190) to (165);
+		\draw [style=background] (205.center)
+			 to (204.center)
+			 to (203.center)
+			 to (206.center)
+			 to cycle;
+		\draw [style=background] (209.center)
+			 to (208.center)
+			 to (207.center)
+			 to (210.center)
+			 to cycle;
+		\draw [style=very thick] (214)
+			 to [in=180, out=60] (215.center)
+			 to (232.center);
+		\draw [style=very thick] (233.center)
+			 to (216.center)
+			 to [in=-60, out=180] (214);
+		\draw [style=very thick] (214)
+			 to [in=360, out=120] (217.center)
+			 to (223.center);
+		\draw [style=very thick] (214)
+			 to [in=0, out=-120] (218.center)
+			 to (224.center);
+		\draw [style=very thick] (226.center) to (228);
+		\draw [style=very thick] (225.center) to (227);
+		\draw [style=very thick, in=135, out=-30] (227) to (213);
+		\draw [in=150, out=30] (227) to (212);
+		\draw [in=-135, out=30] (228) to (212);
+		\draw [style=very thick, in=-150, out=-30] (228) to (213);
+		\draw [style=very thick] (235.center) to (237);
+		\draw [style=very thick] (234.center) to (236);
+		\draw [style=very thick, in=-150, out=-30] (213) to (237);
+		\draw [in=315, out=150] (237) to (212);
+		\draw [in=30, out=150] (236) to (212);
+		\draw [style=very thick, in=45, out=-150] (236) to (213);
+	\end{pgfonlayer}
+\end{tikzpicture}

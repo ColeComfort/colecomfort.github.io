@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (19) at (0.875, 0.5) {};
+		\node [style=none] (20) at (-2.125, 0.5) {};
+		\node [style=none] (21) at (-2.125, -0.5) {};
+		\node [style=none] (22) at (0.875, -0.5) {};
+		\node [style=gwn] (23) at (0.125, 0) {};
+		\node [style=none] (39) at (0.875, 0) {};
+		\node [style=wphase] (40) at (0.125, 0.55) {$\vec v$};
+		\node [style=rmatt] (41) at (-1, 0) {\(T\)};
+		\node [style=none] (42) at (-2.125, 0) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=background] (21.center)
+			 to (20.center)
+			 to (19.center)
+			 to (22.center)
+			 to cycle;
+		\draw [style=very thick] (23) to (41);
+		\draw [style=very thick] (41) to (42.center);
+	\end{pgfonlayer}
+\end{tikzpicture}

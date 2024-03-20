@@ -1,0 +1,348 @@
+%Conditional to render comments conditional on the command \supresscomments being undefined
+\ifx\supresscomments\undefined%
+  \newcommand{\cole}[1]{%
+    \noindent{\color{blue} \textsf{[CC: #1]}}
+  }
+  \newcommand{\titouan}[1]{%
+    \noindent{\color{red} \textsf{[TC: #1]}}
+  }
+    \newcommand{\robert}[1]{%
+    \noindent{\color{purple} \textsf{[RIB: #1]}}
+  }
+\else%
+  \newcommand{\robert}[1]{}
+  \newcommand{\cole}[1]{}
+  \newcommand{\titouan}[1]{}
+\fi
+
+
+%Prefixes and strings.  Do not use these!
+\newcommand{\Aff}{%
+  \mathsf{Aff}
+}
+\newcommand{\Mat}{%
+  \mathsf{Mat}
+}
+\newcommand{\Lin}{%
+  \mathsf{Lin}
+}
+\newcommand{\Lag}{%
+  \mathsf{Lag}
+}
+\newcommand{\Co}{%
+  \mathsf{Co}
+}
+\newcommand{\Isot}{%
+  \mathsf{Isot}
+}
+
+\newcommand{\zx}{%
+  \mathsf{GSA}
+}
+\newcommand{\gla}{%
+  \mathsf{GLA}
+}
+\newcommand{\gaa}{%
+  \mathsf{GAA}
+}
+\newcommand{\stab}{%
+  \mathsf{Stab}
+}
+\newcommand{\GGA}{%
+  \mathsf{GGA}
+}
+\newcommand{\GQGA}{%
+  \GSA[\C]^+
+}
+\newcommand{\Gauss}{\mathsf{Gauss}}
+\newcommand{\QGauss}{\mathsf{QGauss}}
+\newcommand{\ExGauss}{\operatorname{ExGauss}}
+\newcommand{\GaussRel}{\mathsf{GaussRel}}
+\newcommand{\QGaussRel}{\ALR[\C]^+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Functors and math operators
+\newcommand{\im}{%
+  \operatorname{im}
+}
+\newcommand{\CPM}{%
+  \operatorname{CPM}
+}
+\newcommand{\interp}[1]{%
+  \left\llbracket #1 \right\rrbracket
+}
+\newcommand{\trans}{%
+  \mathsf{T}
+}
+\DeclareRobustCommand{\disc}{%
+  {\scalebox{.5}{\tikzfig{../figures/assets/discard_small}}}
+}
+
+%Rings
+\newcommand{\B}{%
+  \mathbb{B}
+}
+\newcommand{\N}{%
+  \mathbb{N}
+}
+\newcommand{\Z}{%
+  \mathbb{Z}
+}
+\newcommand{\Zp}{%
+  {\mathbb{F}_p}
+}
+\newcommand{\K}{%
+  \mathbb{K}
+}
+\newcommand{\Q}{%
+  \mathbb{Q}
+}
+\newcommand{\R}{%
+  \mathbb{R}
+}
+\newcommand{\C}{%
+  \mathbb{C}
+}
+\renewcommand{\H}{%
+  \mathbb{H}
+}
+\renewcommand{\O}{%
+  \mathbb{O}
+}
+
+%Categories
+\newcommand{\Coherent}{%
+  \mathsf{Coherent}
+}
+\newcommand{\ExCoherent}{%
+  \mathsf{Ex}\Coherent
+}
+\newcommand{\LOv}{%
+  \mathsf{LOv}
+}
+\newcommand{\ECirc}{%
+  \mathsf{ECirc}
+}
+
+%Categories with default parameters
+\newcommand{\FHilb}{\mathsf{FHilb}}
+\newcommand{\Hilb}{\mathsf{Hilb}}
+
+\NewDocumentCommand{\Rel}{O{X}}{%
+  \mathsf{Rel}_{#1}
+}
+\NewDocumentCommand{\Symp}{O{\K}}{%
+  \mathsf{Symp}_{#1}
+}
+\NewDocumentCommand{\ASymp}{O{\K}}{%
+  {\Aff}\Symp[#1]
+}
+\NewDocumentCommand{\AR}{O{\K}}{%
+  {\Aff}\Rel[#1]
+}
+\NewDocumentCommand{\lR}{O{\K}}{%
+  {\Lin}\Rel[#1]
+}
+\NewDocumentCommand{\LR}{O{\K}}{%
+  {\Lag}\Rel[#1]
+}
+\NewDocumentCommand{\IR}{O{\K}}{%
+  {\Isot}\Rel[#1]
+}
+\NewDocumentCommand{\CR}{O{\K}}{%
+  {\Co}\IR[#1]
+}
+\NewDocumentCommand{\ALR}{O{\K}}{%
+  {\Aff}\LR[#1]
+}
+\NewDocumentCommand{\AIR}{O{\K}}{%
+  {\Aff}\IR[#1]
+}
+\NewDocumentCommand{\ACR}{O{\K}}{%
+  {\Aff}\CR[#1]
+}
+\NewDocumentCommand{\ZX}{O{\K}}{%
+  \zx_{#1}
+}
+\NewDocumentCommand{\GSA}{O{\K}}{%
+  \zx_{#1}
+}
+\NewDocumentCommand{\ZXdisc}{O{\K}}{%
+  \ZX[#1]^\disc
+}
+\NewDocumentCommand{\GLA}{O{\K}}{%
+  \gla_{#1}  
+}
+\NewDocumentCommand{\GAA}{O{\K}}{%
+  \gaa_{#1}
+}
+\NewDocumentCommand{\Stab}{O{p}}{%
+  \stab_{#1}
+}
+
+
+%Categories with fixed parameters
+\newcommand{\ZXF}{%
+  \ZX[\Zp]
+}
+\newcommand{\RX}{%
+  \Rel[X]
+}
+\newcommand{\RK}{%
+  \Rel[\K]
+}
+
+%abbreviations, to be used in interpretations
+\newcommand{\abbrlinr}{%
+  \mathsf{LR}
+}
+\newcommand{\abbrar}{%
+  \mathsf{AR}
+}
+\newcommand{\abbrlagr}{%
+  \mathsf{LR}
+}
+\newcommand{\abbrisotr}{%
+  \mathsf{IR}
+}
+\newcommand{\abbrcoisotr}{%
+  \mathsf{CIR}
+}
+\newcommand{\abbralagr}{%
+  \mathsf{ALR}
+}
+\newcommand{\abbraffisotr}{%
+  \mathsf{AIR}
+}
+\newcommand{\abbraffcoisotr}{%
+  \mathsf{ACIR}
+}
+
+% Grassmanians and homs
+%matrix hom: usage   \Matrices[default=m,default=n,\default=\K] produces M_{m,n}(K) 
+\NewDocumentCommand{\Matrices}{ O{m} O{n} O{\K} }{%
+%  \operatorname{\Mat}_{#3}(#2,#1)
+  \operatorname{M}_{#1,#2}(#3)
+}
+%Symmetric matrices:  usage   \Matrices[default=n,\default=\K] produces Sym_{n}(K) 
+\NewDocumentCommand{\Sym}{O{n} O{\K} }{%
+  \operatorname{Sym}_{#1}(#2)
+}
+
+%Unitary matrices:  usage   \Matrices[default=n,\default=\C] produces U_{n}(K) 
+\NewDocumentCommand{\Unit}{O{n} O{\C} }{%
+  \operatorname{U}_{#1}(#2)
+}
+
+%Orthogonal matrices:  usage   \Matrices[default=n,\default=\R] produces O_{n}(K) 
+\NewDocumentCommand{\Orth}{O{n} O{\R} }{%
+  \operatorname{O}_{#1}(#2)
+}
+
+%Special Orthogonal matrices:  usage   \Matrices[default=n,\default=\R] produces O_{n}(K) 
+\NewDocumentCommand{\SpOrth}{O{n} O{\R} }{%
+  \operatorname{SO}_{#1}(#2)
+}
+
+%Symplectic matrices:  usage   \Matrices[default=n,\default=\R] produces Sp_{n}(K) 
+\NewDocumentCommand{\Sp}{O{n} O{\R} }{%
+  \operatorname{Sp}_{#1}(#2)
+}
+
+\NewDocumentCommand{\ASp}{O{n} O{\R} }{%
+  \operatorname{AffSp}_{#1}(#2)
+}
+
+
+%Linear grassmanian:  usage   \Matrices[default=n,\default=\R] produces Sp_{n}(K) 
+\NewDocumentCommand{\Gl}{O{n} O{\R} }{%
+  \operatorname{Gl}_{#1}(#2)
+}
+
+% Diagram symbols
+\newcommand{\bvdots}{%
+  \tikz[baseline, every node/.style={inner sep=0}]{ \node at (0,0){.}; \node at (0,-6pt){.}; \node at (0,6pt){.}; }
+}
+
+%\cole{...}
+\newcommand{\diagram}{%
+  \(\ZX\)-diagram\xspace
+}
+
+%macros
+\newlength\oversetwidth
+\newlength\underwidth
+\newcommand\alignedoverset[2]{
+  % #1 = over
+  % #2 = under
+  \settowidth\oversetwidth{$\overset{#1}{#2}$}
+  \settowidth\underwidth{$#2$}
+  \setlength\oversetwidth{\oversetwidth-\underwidth}
+  \hspace{.5\oversetwidth}
+  &
+  \settowidth\oversetwidth{$\overset{#1}{#2}$}
+  \settowidth\underwidth{$#2$}
+  \setlength\oversetwidth{\oversetwidth-\underwidth}
+  \hspace{-.5\oversetwidth}
+  \overset{#1}{#2}
+}
+
+\newcommand{\stackedrefs}[1]{%
+  \begingroup\renewcommand*{\arraystretch}{.5}\begin{matrix}#1\end{matrix}\endgroup
+}
+
+\newcommand{\stackeqmid}[1]{%
+  \stackrel{\stackedrefs{#1}}{=}
+%  \stackeq{#1}
+}
+\newcommand{\stackeq}[1]{%
+%  \stackrel{\mathllap{\stackedrefs{#1}}}{=}
+  \alignedoverset{\stackedrefs{#1}}{=}
+}
+
+\let\oldoverline\overline
+\renewcommand{\overline}[1]{\mkern 1.5mu\oldoverline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+
+%redefine ugly epsilon and phi
+\renewcommand{\phi}{%
+  \varphi
+}
+\renewcommand{\epsilon}{%
+  \varepsilon
+}
+
+
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\rk}{rank}
+
+%\renewcommand{\Re}{%
+%  \mathfrak{Re}
+%}
+%
+%\renewcommand{\Im}{%
+%  \mathfrak{Im}represent
+%}
+
+%for standardization
+\renewcommand{\leq}{%
+  \leqslant
+}
+\renewcommand{\geq}{%
+  \geqslant
+}
+
+%
+\renewcommand{\overrightarrow}{%
+  \vec
+}
+
+
+\newcommand{\vdotss}{ 	\tikz[baseline, every node/.style={inner sep=0}]{ 	\node at (0,0){.}; 	\node at (0,4pt){.}; 	\node at (0,8pt){.}; 	} 	}
+\newcommand{\vdotsn}{{\ \tikz[baseline, every node/.style={inner sep=0}]{\node at (0,.23){$\vdots$}; \node at (.2,.1){$\scriptstyle n$}}\!}}
+\newcommand{\vdotsm}{{\ \tikz[baseline, every node/.style={inner sep=0}]{\node at (0,.23){$\vdots$}; \node at (.2,.1){$\scriptstyle m$}}\!}}

@@ -1,0 +1,56 @@
+\colorlet{npbsmoitiehaute}{black!50!white}
+\colorlet{npbsmoitiebasse}{black!15!white}
+\colorlet{couleurdefond}{white}
+\colorlet{bleu}{blue!60!white}
+
+\makeatletter
+\pgfdeclareshape{beam}{
+  \inheritsavedanchors[from=diamond]
+  \inheritanchor[from=diamond]{text}
+  \inheritanchor[from=diamond]{center}
+  \inheritanchor[from=diamond]{mid}
+  \inheritanchor[from=diamond]{base}
+  \inheritanchor[from=diamond]{north}
+  \inheritanchor[from=diamond]{south}
+  \inheritanchor[from=diamond]{west}
+  \inheritanchor[from=diamond]{north west}
+  \inheritanchor[from=diamond]{south west}
+  \inheritanchor[from=diamond]{north east}
+  \inheritanchor[from=diamond]{south east}
+  \inheritanchorborder[from=diamond]
+  %
+  % Background path
+  %
+  \backgroundpath{
+    \pgf@process{\outernortheast}%
+    \pgf@xc=\pgf@x%
+    \pgf@yc=\pgf@y%
+    \pgfmathsetlength{\pgf@xa}{\pgfkeysvalueof{/pgf/outer xsep}}%
+    \pgfmathsetlength{\pgf@ya}{\pgfkeysvalueof{/pgf/outer ysep}}%
+    \advance\pgf@xc by-1.414213\pgf@xa%
+    \advance\pgf@yc by-1.414213\pgf@ya%
+    \pgfpathmoveto{\pgfqpoint{\pgf@xc}{0pt}}%
+    \pgfpathlineto{\pgfqpoint{0pt}{\pgf@yc}}%
+    \pgfpathlineto{\pgfqpoint{-\pgf@xc}{0pt}}%
+    \pgfpathlineto{\pgfqpoint{0pt}{-\pgf@yc}}%
+    \pgfpathlineto{\pgfqpoint{\pgf@xc}{0pt}}%
+    \pgfpathclose%
+    \pgfpathmoveto{\pgfqpoint{\pgf@xc}{0pt}}%
+    \pgfpathlineto{\pgfqpoint{-\pgf@xc}{0pt}}%
+    \pgfpathclose%
+  }%
+}%
+\makeatother
+
+\tikzset{
+diagonal fill/.style 2 args={fill=#2, path picture={
+\fill[#1, sharp corners] (path picture bounding box.south west) -|
+                         (path picture bounding box.north east) -- cycle;}},
+reversed diagonal fill/.style 2 args={fill=#2, path picture={
+\fill[#1, sharp corners] (path picture bounding box.north west) |- 
+                         (path picture bounding box.south east) -- cycle;}},
+horizontal fill/.style 2 args={fill=#2, path picture={
+\fill[#1, sharp corners] (path picture bounding box.west) --
+                         (path picture bounding box.east) -- (path picture bounding box.south) -- cycle;}}
+}
+

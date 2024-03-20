@@ -1,0 +1,112 @@
+% Math Symbols
+\usepackage[cmtip,all]{xy} %commutative diagrams
+\usepackage{amsmath}
+
+%command to add tabular style arguments to matrices ie begin{bmatrix}[cc|cc] for augmented matrices
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+
+
+
+\usepackage{mathtools}
+%\usepackage{amsthm}
+%\usepackage{thmtools}%, thm-restate}
+\usepackage{physics}    % better math symbols
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathdots}   % diagonal dots in other direction
+\usepackage{mathrsfs}   % cursive font
+\usepackage{nicefrac}   % inline slanted fractions
+\usepackage{stmaryrd}
+\usepackage{tikz-cd}     % commutative diagrams
+\usepackage{xparse}     %allows commands with optional arguments to be defined
+
+\usepackage{amsfonts}
+\usepackage{mathtools}
+%\usepackage{titlesec}
+
+
+\usepackage[inline]{enumitem}
+
+
+%\usepackage{enumitem}
+%\setlist{noitemsep}
+%\setlength{\arraycolsep}{1pt}
+
+
+\usepackage{bold-extra}
+
+% Authors & Affiliations
+%\usepackage{authblk}
+
+\usepackage{xcolor}
+
+% For symbol definitions for normal text
+\usepackage{xspace}
+
+% Diagrams
+\usepackage{tikz}
+\usetikzlibrary{decorations.markings}
+\usepackage{tikzit}
+\usepackage{float}
+\usepackage{circuitikz}
+\usetikzlibrary{shadows,fadings}
+\ctikzset{bipoles/length=.8cm}
+
+
+%\usepackage{robust-externalize}
+%\cacheTikzitWithStyle{symplectic-ZX.tikzstyles}
+%\cacheTikzitWithStyle{symplectic-ZX.tikzdefs}
+
+
+\input{styles/symplectic-ZX.tikzdefs}
+\input{styles/symplectic-ZX.tikzstyles}
+\input{styles/styles-pbs.tikzdefs}
+\input{styles/styles-pbs.tikzstyles}
+
+
+%\input{styles/symplectic-ZX.tikzdefs}
+%\input{styles/symplectic-ZX.tikzstyles}
+%\input{styles/styles-pbs.tikzdefs}
+%\input{styles/styles-pbs.tikzstyles}
+
+
+\bibliographystyle{alpha}% the mandatory bibstyle
+
+
+
+%CC: I don't think this is compliant with the conference format, but I want textcite.  Robert can you please fix this, because I don't know how biblatex works
+%% Bibliography
+%\usepackage[
+%  style=alphabetic,
+%  sorting=nyt,
+%  backend=biber,
+%  maxnames=6,
+%  maxcitenames=2,
+%  url=true,
+%  doi=true,
+%  isbn=false,
+%  eprint=false
+%]{biblatex}
+%
+
+
+%
+%%% Hyperlinks
+%\usepackage{hyperref}
+%\hypersetup{
+%  colorlinks=true,
+%  linkcolor=blue,
+%  citecolor=gray
+%}
+
+
+%\usepackage{pdfpages}
+%\usetikzlibrary{external}
+%\tikzexternalize % activate!
+%\tikzexternalize[mode=list and make]

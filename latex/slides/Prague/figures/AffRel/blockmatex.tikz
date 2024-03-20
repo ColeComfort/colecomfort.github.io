@@ -1,0 +1,66 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (239) at (-5, 1.175) {};
+		\node [style=none] (240) at (-2, 1.175) {};
+		\node [style=none] (241) at (-2, -1.25) {};
+		\node [style=none] (242) at (-5, -1.25) {};
+		\node [style=none] (243) at (-1, 0) {$\coloneqq$};
+		\node [style=none] (244) at (0, 1.175) {};
+		\node [style=none] (245) at (6.025, 1.175) {};
+		\node [style=none] (246) at (6.025, -1.225) {};
+		\node [style=none] (247) at (0, -1.225) {};
+		\node [style=rmatt] (250) at (-3.5, 0) {$\begin{matrix}A & B \\ C & D\end{matrix}$};
+		\node [style=none] (251) at (-2, 0) {};
+		\node [style=none] (252) at (-5, 0) {};
+		\node [style=none] (253) at (0, 0) {};
+		\node [style=divide] (255) at (0.5, 0) {};
+		\node [style=gbn] (284) at (1.5, 0.575) {};
+		\node [style=gbn] (285) at (1.5, -0.625) {};
+		\node [style=gwn] (286) at (3.625, 0.6) {};
+		\node [style=gwn] (287) at (3.625, -0.625) {};
+		\node [style=rmatt] (288) at (2.5, 0.875) {$A$};
+		\node [style=rmatt] (289) at (2.5, 0.275) {$B$};
+		\node [style=rmatt] (290) at (2.5, -0.325) {$C$};
+		\node [style=rmatt] (291) at (2.5, -0.925) {$D$};
+		\node [style=none] (294) at (6.025, 0) {};
+		\node [style=gather] (295) at (5.525, 0) {};
+		\node [style=gwn] (296) at (4.525, 0.6) {};
+		\node [style=gwn] (297) at (4.525, -0.625) {};
+		\node [style=none] (299) at (2.875, -0.325) {};
+		\node [style=none] (300) at (2.875, 0.275) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=background] (241.center)
+			 to (240.center)
+			 to (239.center)
+			 to (242.center)
+			 to cycle;
+		\draw [style=background] (245.center)
+			 to (244.center)
+			 to (247.center)
+			 to (246.center)
+			 to cycle;
+		\draw [style=very thick] (252.center) to (250);
+		\draw [style=very thick] (250) to (251.center);
+		\draw [style=very thick] (253.center) to (255);
+		\draw [style=very thick, in=-180, out=60] (255) to (284);
+		\draw [style=very thick, in=180, out=45] (284) to (288);
+		\draw [style=very thick, in=150, out=0] (288) to (286);
+		\draw [style=very thick, in=-45, out=180] (289) to (284);
+		\draw [style=very thick, in=0, out=-150] (287) to (291);
+		\draw [style=very thick, in=-45, out=180] (291) to (285);
+		\draw [style=very thick, in=-180, out=45] (285) to (290);
+		\draw [style=very thick, in=180, out=-60] (255) to (285);
+		\draw [style=very thick] (295) to (294.center);
+		\draw [style=very thick, in=0, out=120] (295) to (296);
+		\draw [style=very thick, in=0, out=-120] (295) to (297);
+		\draw [style=very thick] (296) to (286);
+		\draw [style=very thick] (297) to (287);
+		\draw [style=very thick] (287)
+			 to [in=0, out=120] (300.center)
+			 to (289);
+		\draw [style=very thick] (290)
+			 to (299.center)
+			 to [in=-120, out=0] (286);
+	\end{pgfonlayer}
+\end{tikzpicture}

@@ -1,2 +1,5 @@
 User-agent: Googlebot
 Disallow: /pictures/favicon.png
+
+User-agent: Googlebot-Image
+Disallow: /pictures/favicon.png

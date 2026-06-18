@@ -1,5 +1,8 @@
 User-agent: Googlebot
 Disallow: /pictures/favicon.png
+Disallow: /pdfs
+Disallow: /latex
+Disallow: /pictures
 
 User-agent: Googlebot-Image
 Disallow: /pictures/favicon.png

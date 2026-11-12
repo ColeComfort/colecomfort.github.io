@@ -1,0 +1,339 @@
+/* =========================================================
+   Upgrade level 3 ("extra high"): a 1997 GeoCities-style
+   homepage (in the spirit of Cameron's World) that does things
+   1997 couldn't. Stands alone (retro.css isn't loaded at this
+   level). Every rule is scoped to html.extreme, set by
+   extreme.js, which also makes the tiles, fire and shards.
+   Deliberately flat: no gradients, glows or rounded corners.
+   ========================================================= */
+
+html.extreme:not(.web1-ready) body { visibility: hidden; }   /* until the frames are built */
+
+.extreme *, .extreme *::before, .extreme *::after { box-sizing: border-box; }
+
+/* ---------- the frameset ---------- */
+.extreme body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "top    top"
+    "left   main"
+    "bottom bottom";
+  color: #7a0099;
+  background-color: #ff00cc;
+  font: 16px/1.35 "Times New Roman", Times, serif;
+}
+
+/* the page background: extreme.js puts the tile on this layer; it drifts diagonally
+   and slowly cycles through colours */
+.xf-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-repeat: repeat;
+  animation: xf-drift 9s linear infinite, xf-hue 40s linear infinite;
+}
+@keyframes xf-drift { from { background-position: 0 0; } to { background-position: 128px 128px; } }
+@keyframes xf-hue { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(360deg); } }
+.extreme a { color: #ffff00; }
+.extreme a:visited { color: #00ff66; }
+.extreme img { max-width: 100%; height: auto; }
+
+.xf-pane { position: relative; overflow: hidden; border: 4px outset #c0c0c0; }
+.xf-scroll { position: relative; height: 100%; overflow: auto; }
+.xf-top { grid-area: top; }
+.xf-top .xf-scroll {
+  min-height: 150px;
+  padding: 6px 14px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.xf-left { grid-area: left; }
+.xf-left .xf-scroll { padding: 10px; text-align: center; }
+.xf-main { grid-area: main; }
+
+/* ---------- title ---------- */
+.xf-top .page-title {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  font: bold 60px/1.1 "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive;
+  color: #ffff00;
+}
+
+/* ---------- GIFs ---------- */
+.xf-wrap { position: relative; display: inline-block; max-width: 100%; line-height: 0; vertical-align: middle; }
+.xf-top .xf-wrap { flex: none; }
+.extreme .xf-dancer { width: auto; max-width: none; height: 130px; }
+.xf-landed { z-index: 6; margin: 0; }        /* GIFs that dropped out of something shot down */
+/* themed groups (see decorations() in extreme.js) */
+.extreme .xf-peacock { display: block; width: 190px; height: auto; margin: 14px auto 0; }
+
+.xf-dancefloor { padding: 14px 10px 0; text-align: center; }
+.xf-banner { display: block; border: 3px ridge #c0c0c0; }
+.xf-floor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 12px 0 16px;
+}
+.extreme .xf-floor .xf-dancer { height: 150px; }
+
+.xf-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px 28px;
+  padding: 16px 10px 18px;
+}
+.xf-construction { display: block; }
+.extreme .xf-badge { display: block; width: auto; height: 130px; }
+.xf-best { flex-basis: 100%; margin: 0; text-align: center; font: bold 13px "Courier New", Courier, monospace; color: #7a0099; }
+
+/* ---------- left frame ---------- */
+.extreme .site-nav { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.extreme .site-nav a {
+  display: block;
+  padding: 5px 8px;
+  font: bold 16px "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive;
+  color: #000000 !important;
+  text-decoration: none;
+  background: #00ffff;
+  border: 4px outset #80ffff;
+}
+.extreme .site-nav a:hover { background: #ffff00; border-color: #ffff99; }
+.extreme .site-nav a:active,
+.extreme .site-nav a[aria-current="page"] { background: #ff66ff; border: 4px inset #ff99ff; }
+.extreme .site-nav a.lucky { background: #00ff00; border-color: #99ff99; }
+.extreme .site-nav a.lucky::before { content: "\2618\00a0"; }
+
+.extreme .profile { padding: 10px 8px; font-size: 14px; }
+.extreme .photo img,
+.extreme .photo canvas {
+  display: block;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border: 4px ridge #c0c0c0;
+}
+.extreme .photo canvas.web1-photo-fallback { filter: contrast(1.35) saturate(1.5); }
+.extreme .contact { list-style: none; padding: 0; margin: 10px 0 0; }
+.extreme .contact li { margin-bottom: 6px; }
+.extreme .ico, .extreme .btn svg { display: none; }
+.extreme .btn {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 3px 10px;
+  font-weight: bold;
+  color: #000000 !important;
+  text-decoration: none;
+  background: #c0c0c0;
+  border: 3px outset #e0e0e0;
+}
+
+.extreme .web1-counter {
+  display: inline-flex;
+  gap: 2px;
+  margin-top: 12px;
+  padding: 3px;
+  background: #000000;
+  border: 3px inset #808080;
+}
+.extreme .web1-counter span {
+  padding: 0 4px;
+  font: bold 20px/1.3 "Courier New", Courier, monospace;
+  color: #00ff00;
+  background: #000000;
+  border: 1px solid #333333;
+}
+
+/* ---------- the collage: each box has its own tile and near-matching ink ---------- */
+.extreme .bio,
+.extreme .paper,
+.extreme .people,
+.extreme .profile {
+  color: var(--ink, #ff00cc);
+}
+.extreme .bio a,
+.extreme .paper a,
+.extreme .people a,
+.extreme .profile a { color: var(--link, #ffff00); }
+
+.extreme .bio { padding: 18px 22px; font-size: 18px; }
+.extreme .bio p { margin: 0 0 1em; }
+.extreme .bio p:last-child { margin-bottom: 0; }
+
+.extreme .paper { padding: 14px 18px 18px; }
+.extreme .paper-title { margin: 0 0 4px; font: bold 22px/1.25 "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive; }
+.extreme .authors { margin: 0 0 10px; }
+.extreme .authors em { display: block; font-size: 14px; }
+.extreme .figure { margin: 0 0 14px; }
+.extreme .figure:last-child { margin-bottom: 0; }
+.extreme .figure figcaption { margin-bottom: 4px; font: bold 15px "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive; }
+.extreme .figure figcaption::before { content: "\2605\00a0"; }
+.extreme .xf-figure {
+  display: block;
+  padding: 6px;
+  text-align: center;
+  background: #ffffff;
+  border: 3px outset #c0c0c0;
+}
+.extreme .xf-figure img { display: inline-block; vertical-align: middle; }
+
+.extreme .people { list-style: none; margin: 0; padding: 18px 24px; columns: 2 220px; font-size: 17px; }
+.extreme .people li { margin: 0 0 8px; break-inside: avoid; }
+.extreme .avatar { display: none; }
+.extreme .person::before { content: "\2605"; display: inline-block; margin-right: 8px; }
+.extreme a.person { text-decoration: none; }
+.extreme a.person .name,
+.extreme a.person .site { text-decoration: underline; }
+.extreme .person .name { font-weight: bold; }
+.extreme .person .site { display: inline-block; margin-left: 6px; font-size: 13px; }
+.extreme .person .site::before { content: "("; }
+.extreme .person .site::after { content: ")"; }
+
+/* ---------- damage ---------- */
+.xf-char {                                   /* charring, drawn by extreme.js */
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.xf-hole {                                   /* the sprite is drawn by extreme.js */
+  position: absolute;
+  z-index: 5;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  background-size: 16px 16px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.xf-hole-free { position: fixed; z-index: 45; animation: xf-fade 6s steps(6, end) forwards; }
+@keyframes xf-fade { 80% { opacity: 1; } to { opacity: 0; } }
+
+.xf-hit { animation: xf-jolt 0.15s steps(3, end); }
+@keyframes xf-jolt {
+  33% { transform: translate(-3px, 1px); }
+  66% { transform: translate(3px, -1px); }
+}
+
+.xf-falling { position: fixed !important; z-index: 46; margin: 0 !important; overflow: hidden; }
+.xf-gap { display: inline-block; vertical-align: top; transition: width 0.5s steps(5, end), height 0.5s steps(5, end); }
+
+.xf-shake { animation: xf-shake 0.36s steps(4, end); }
+@keyframes xf-shake {
+  25% { transform: translate(6px, -4px); }
+  50% { transform: translate(-6px, 3px); }
+  75% { transform: translate(4px, 4px); }
+}
+
+/* effect layers: clicks pass straight through */
+.xf-effects,
+.web1-fireworks {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.web1-fireworks { z-index: 50; }
+.xf-effects { z-index: 55; }
+
+/* ---------- the upgrade bar is the bottom frame ---------- */
+.spice-3 {
+  grid-area: bottom;
+  position: relative;
+  z-index: 40;
+  height: 62px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #000080;
+  border: 4px outset #c0c0c0;
+  font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive;
+}
+.spice-3 .spice-label {
+  flex: none;
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffff00;
+  animation: xf-blink 1s steps(1, end) infinite;
+}
+@keyframes xf-blink { 50% { visibility: hidden; } }
+
+.spice-3 .spice-track { flex: 1; min-width: 0; }
+.spice-3 div.spice-track { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.spice-3 button {
+  margin: 0 10px;
+  padding: 4px 12px;
+  font: bold 16px "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive;
+  text-transform: uppercase;
+  color: #000000;
+  background: #ffff00;
+  border: 4px outset #ffff99;
+}
+.spice-3 .spice-track button:nth-child(2) { background: #00ff00; border-color: #99ff99; }
+.spice-3 .spice-track button:nth-child(3) { background: #00ffff; border-color: #99ffff; }
+.spice-3 .spice-track button:nth-child(4) { background: #ff00ff; border-color: #ff99ff; }
+.spice-3 .spice-track button:nth-child(4)::after { content: "!!!"; }
+.spice-3 button[aria-pressed="true"] { border-style: inset; }
+.spice-3 button:focus-visible { outline: 3px dashed #ffffff; outline-offset: 2px; }
+.spice-3 .chillies { display: inline-flex; margin-right: 6px; vertical-align: -4px; }
+.spice-3 .chilli { width: 20px; height: 20px; }
+
+.spice-3 .spice-music {
+  flex: none;
+  width: 44px;
+  margin: 0;
+  padding: 2px 0;
+  font-size: 22px;
+  background: #c0c0c0;
+  border-color: #e0e0e0;
+}
+.spice-3 .spice-music[aria-pressed="false"] { text-decoration: line-through; color: #606060; }
+
+/* ---------- small screens: frames stacked ---------- */
+@media (max-width: 760px) {
+  .extreme body { display: block; height: auto; overflow: visible; }
+  .xf-scroll { height: auto; overflow: visible; }
+  .xf-top .xf-scroll { min-height: 100px; padding: 4px; }
+  .xf-top .page-title { font-size: 32px; }
+  .extreme .xf-top .xf-dancer { height: 84px; }
+  .xf-left .xf-scroll { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
+  .extreme .site-nav { flex-direction: row; flex-wrap: wrap; justify-content: center; width: 100%; margin: 0; }
+  .extreme .site-nav a { font-size: 14px; padding: 4px 6px; }
+  .extreme .xf-peacock { width: 150px; margin: 0; }
+  .extreme .xf-floor .xf-dancer { height: 110px; }
+  .extreme .xf-badge { height: 100px; }
+  .extreme .people { columns: 1; }
+  .spice-3 { position: sticky; bottom: 0; height: 56px; gap: 6px; padding: 0 6px; }
+  .spice-3 .spice-label { font-size: 18px; }
+  .spice-3 button { font-size: 13px; padding: 3px 6px; }
+  .spice-3 .spice-music { width: 36px; font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .extreme *,
+  .spice-3,
+  .spice-3 * { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,306 @@
+/* =========================================================
+   Web 1.0 skin.
+   Every rule is scoped to html.retro, which retro.js sets on
+   about 1 in 10 loads (it also switches style.css off), so
+   none of this touches the normal site.
+   ========================================================= */
+
+html.retro { color-scheme: dark; }   /* no background here, so the body's starfield fills the window */
+
+/* hidden until retro.js has rebuilt the page, so the old layout never flashes */
+html.retro:not(.web1-ready) body { visibility: hidden; }
+
+.retro body {
+  margin: 0;
+  padding: 0 10px 40px;
+  background-color: #000;            /* starfield tile is added by retro.js */
+  color: #cccccc;
+  font-family: "Times New Roman", Times, "Liberation Serif", serif;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.retro a { color: #33ccff; text-decoration: underline; }
+.retro a:visited { color: #cc99ff; }
+.retro a:hover { color: #ffff00; }
+
+.retro img { max-width: 100%; height: auto; }
+.retro svg { display: none; }        /* no vector icons in 1997 */
+.retro strong { color: #ffffff; }
+
+.retro main { max-width: 820px; margin: 0 auto; }
+
+/* ---------- header: a row of Windows 95 buttons ---------- */
+.retro .site-header {
+  text-align: center;
+  padding: 14px 0 12px;
+  margin-bottom: 14px;
+  border-bottom: 4px ridge #808080;
+}
+.retro .site-title { display: none; }
+.retro .site-nav {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.retro .site-nav a,
+.retro .btn,
+.retro .lb-close,
+.retro .spice-2 button,
+.retro .spice-2 input[type="submit"] {
+  display: inline-block;
+  padding: 4px 14px;
+  background: #c0c0c0;
+  color: #000000 !important;
+  font: bold 13px/1.4 Tahoma, "MS Sans Serif", Geneva, Arial, sans-serif;
+  text-decoration: none;
+  border: 2px solid;
+  border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  border-radius: 0;
+  cursor: pointer;
+}
+.retro .site-nav a:active,
+.retro .btn:active,
+.retro .site-nav a[aria-current="page"] {
+  border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080;
+  /* the checkerboard of a "pressed" toggle button */
+  background: repeating-conic-gradient(#c0c0c0 0 25%, #e8e8e8 0 50%) 0 0 / 2px 2px;
+}
+
+/* ---------- rainbow marquee title ---------- */
+.retro marquee { display: block; margin: 6px 0 14px; }
+.retro .page-title {
+  display: inline-block;
+  margin: 6px 0 14px;
+  font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive;
+  font-size: 46px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-shadow: 3px 3px 0 #222266;
+  white-space: nowrap;
+}
+.retro marquee .page-title { margin: 0; }
+
+/* ---------- layout tables ---------- */
+.retro table.web1 {
+  background: rgba(0, 0, 40, 0.88);
+  margin: 0 0 6px;
+}
+.retro table.web1 td { padding: 12px 14px; }
+.retro td.web1-head { background: #000080; }
+
+/* home */
+.retro .bio p { margin: 0 0 1em; }
+.retro .bio p:last-child { margin-bottom: 0; }
+.retro .profile { text-align: center; font-size: 15px; }
+
+.retro .photo img,
+.retro .photo canvas {
+  display: block;
+  width: 216px;
+  height: 216px;
+  margin: 0 auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border: 6px ridge #c0c0c0;
+}
+.retro .photo canvas.web1-photo-fallback { filter: contrast(1.35) saturate(1.5); }
+
+.retro .contact { list-style: none; padding: 0; margin: 14px 0 0; }
+.retro .contact li { margin: 0 0 10px; }
+.retro .ico { display: none; }
+.retro .btn { margin-top: 6px; }
+
+/* diagrams */
+.retro .paper-title {
+  margin: 0 0 4px;
+  font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive;
+  font-size: 21px;
+}
+.retro .paper-title a { color: #ffff66; }
+.retro .authors { margin: 0; color: #bbbbbb; }
+.retro .authors em { display: block; font-size: 14px; }
+
+.retro .figure { margin: 8px 0 18px; }
+.retro .figure:last-child { margin-bottom: 4px; }
+.retro .figure figcaption {
+  margin: 0 0 6px;
+  color: #66ff66;
+  font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive;
+  font-weight: bold;
+  font-size: 15px;
+}
+.retro .figure figcaption::before { content: "\25BA\00a0"; color: #ff66cc; }
+.retro .figure .frame {
+  display: block;
+  padding: 8px;
+  text-align: center;
+  background: #c0c0c0;
+  border: 3px inset #808080;
+}
+.retro .figure img { display: inline-block; vertical-align: middle; mix-blend-mode: multiply; }
+
+.retro hr.web1-rainbow {
+  border: 0;
+  height: 4px;
+  width: 90%;
+  margin: 20px auto;
+  background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #00ff00, #00ffff, #0066ff, #ff00ff, #ff0000);
+}
+
+/* coauthors: a starred links list */
+.retro .people {
+  list-style: none;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 18px 26px;
+  background: rgba(0, 0, 40, 0.88);
+  border: 3px outset #808080;
+}
+.retro .people li { margin: 7px 0; }
+.retro .person::before { content: "\2605"; display: inline-block; margin-right: 10px; color: #ffee00; }
+.retro .avatar { display: none; }
+.retro a.person { text-decoration: none; }
+.retro .person .name { font-weight: bold; }
+.retro a.person .name,
+.retro a.person .site { text-decoration: underline; }
+.retro .person .site { display: inline-block; margin-left: 8px; font-size: 14px; color: #999999; }
+.retro .person .site::before { content: "("; }
+.retro .person .site::after { content: ")"; }
+
+/* lightbox as a Windows 95 window */
+.retro .lightbox {
+  padding: 30px 8px 8px;
+  max-width: 96vw;
+  max-height: 92vh;
+  overflow: visible;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #404040 #404040 #ffffff;
+  border-radius: 0;
+  box-shadow: 1px 1px 0 #000;
+}
+.retro .lightbox::before {
+  content: "";
+  position: absolute;
+  top: 3px; left: 3px; right: 3px;
+  height: 22px;
+  background: linear-gradient(90deg, #000080, #1084d0);
+}
+.retro .lightbox::backdrop { background: rgba(0, 0, 0, 0.8); }
+.retro .lightbox img {
+  display: block;
+  max-width: calc(96vw - 24px);
+  max-height: calc(92vh - 48px);
+  width: auto;
+  height: auto;
+  mix-blend-mode: multiply;
+  border: 2px inset #808080;
+}
+.retro .lb-close {
+  position: absolute;
+  top: 6px;
+  right: 7px;
+  z-index: 1;
+  width: 20px;
+  height: 17px;
+  padding: 0;
+  font: bold 13px/11px Arial, sans-serif;
+}
+
+/* footer: rainbow rule, under-construction stripes, odometer counter */
+.retro .web1-footer { text-align: center; margin-top: 26px; }
+.retro .web1-construction {
+  width: 260px;
+  max-width: 80%;
+  height: 14px;
+  margin: 0 auto 14px;
+  background: repeating-linear-gradient(-45deg, #ffcc00 0 10px, #111111 10px 20px);
+  border: 2px solid #ffcc00;
+}
+.retro .web1-counter {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  background: #222222;
+  border: 2px inset #808080;
+}
+.retro .web1-counter span {
+  padding: 0 5px;
+  background: #000000;
+  color: #33ff33;
+  font: bold 18px/1.3 "Courier New", Courier, monospace;
+  border: 1px solid #444444;
+}
+
+/* "I'm feeling lucky" tab */
+.retro .site-nav a.lucky::before { content: "\2618\00a0"; color: #008000; }
+
+/* upgrade control at "high": a jump menu with webring arrows */
+.retro .spice-2 { margin: 22px 0 8px; text-align: center; }
+.retro .spice-2 table { margin: 0 auto; background: rgba(0, 0, 40, 0.88); }
+.retro .spice-2 td { padding: 8px 12px; white-space: nowrap; }
+.retro .spice-2 label { color: #ffff66; font-weight: bold; }
+.retro .spice-2 select {
+  font: 15px "Times New Roman", Times, serif;
+  color: #000000;
+  background: #ffffff;
+  border: 2px inset #808080;
+  padding: 1px 2px;
+}
+.retro .spice-2 button,
+.retro .spice-2 input[type="submit"] { padding: 3px 10px; }
+.retro .spice-2 .spice-hint {
+  margin: 8px 0 0;
+  font: bold 16px "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive;
+  color: #ffff00;
+  animation: web1-blink 1s steps(1, end) infinite;
+}
+.retro .spice-2 .spice-hint::before,
+.retro .spice-2 .spice-hint::after { content: "\2605"; margin: 0 8px; color: #ff66cc; }
+@keyframes web1-blink { 50% { visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { .retro .spice-2 .spice-hint { animation: none; } }
+.retro .spice-2 button:disabled {
+  color: #808080 !important;
+  text-shadow: 1px 1px 0 #ffffff;
+  cursor: default;
+}
+
+/* fireworks layer (clicks pass straight through it) */
+.web1-fireworks {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* cursor sparkles */
+.web1-sparkle {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  font-size: 14px;
+  animation: web1-fall 0.8s linear forwards;
+}
+@keyframes web1-fall {
+  to { transform: translateY(26px) scale(0.3); opacity: 0; }
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 640px) {
+  .retro body { padding: 0 6px 32px; font-size: 16px; }
+  .retro .page-title { font-size: 34px; }
+  .retro table.web1-about,
+  .retro table.web1-about tbody,
+  .retro table.web1-about tr,
+  .retro table.web1-about td { display: block; width: auto; }
+  .retro table.web1 td { padding: 10px; }
+  .retro .people { padding: 14px 16px; }
+  .retro .spice-2 td { white-space: normal; }
+}

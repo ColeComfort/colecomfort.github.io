@@ -229,6 +229,8 @@ html.extreme:not(.web1-ready) body { visibility: hidden; }   /* until the frames
 @keyframes xf-fade { 80% { opacity: 1; } to { opacity: 0; } }
 
 .xf-hit { animation: xf-jolt 0.15s steps(3, end); }
+.xf-rattle { animation: xf-rattle 0.064s steps(2, end) 22; }   /* shaking while the drill runs */
+@keyframes xf-rattle { 50% { transform: translate(2px, -1px); } }
 @keyframes xf-jolt {
   33% { transform: translate(-3px, 1px); }
   66% { transform: translate(3px, -1px); }

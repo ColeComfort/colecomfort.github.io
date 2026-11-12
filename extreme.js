@@ -15,7 +15,13 @@
  * and it swings from the other corner before dropping. It falls in jerky, GIF-like steps,
  * and when it hits the bottom of the window it shatters into blocky web-safe tiles in its
  * own colours, which bounce and blink out. Any GIFs on it drop out first and fall to the
- * bottom of whatever it was sitting in, where they carry on. Clicking the bare background sets off
+ * bottom of whatever it was sitting in, where they carry on.
+ *
+ * Some pictures react in their own way instead: the waltzing couple float up and away, the
+ * robot dances faster (up to 4x, then he can be shot), the skeleton walks towards you in
+ * forced perspective, and the kitten just meows (it is the one thing that can't be hurt).
+ * Others react and still take the hit: the "under construction" sign drills, and shooting
+ * one dancing baby makes the other speed up or slow down. Clicking the bare background sets off
  * fireworks. Reload to get everything back. Links and buttons still work as usual.
  */
 (function () {
@@ -315,6 +321,8 @@
       var w = el('span', 'xf-wrap');
       if (img.classList.contains('xf-dancer')) w.classList.add('xf-dancer-wrap');
       if (/waltz/.test(img.src)) w.classList.add('xf-flyaway');      // shot, they float up and away
+      var name = /([\w-]+)\.gif$/.exec(img.getAttribute('src') || '');
+      if (name) w.setAttribute('data-gif', name[1]);
       if (img.style.width === '100%') {           // figures sized as a share of the column
         w.style.width = '100%';
         w.style.maxWidth = img.style.maxWidth;
@@ -368,7 +376,7 @@
   /* ---------- sound: one Web Audio context for the effects and the song ---------- */
 
   var sound = (function () {
-    var ac = null, bus = null, noise = null;
+    var ac = null, bus = null, clean = null, noise = null;
 
     function context() {
       if (!ac) {
@@ -383,6 +391,9 @@
         bus.connect(shaper);
         shaper.connect(master);
         master.connect(ac.destination);
+        clean = ac.createGain();                     // for sounds that shouldn't be crunched
+        clean.gain.value = 0.5;
+        clean.connect(ac.destination);
         noise = ac.createBuffer(1, ac.sampleRate, ac.sampleRate);
         var d = noise.getChannelData(0);
         for (i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
@@ -438,6 +449,62 @@
       pin: function () {           // a pin popping out
         if (!ready()) return;
         tone(ac.currentTime, 2400, 900, 0.12, 0.25, 'square');
+      },
+      meow: function () {          // the kitten: a gliding tone through vowel-ish filters, "mee-ow"
+        if (!ready()) return;
+        var t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(520, t);
+        o.frequency.linearRampToValueAtTime(840, t + 0.18);
+        o.frequency.linearRampToValueAtTime(560, t + 0.6);
+        [[700, 1700, 800, 6], [2500, 2900, 2200, 9]].forEach(function (fm) {
+          var f = ac.createBiquadFilter();
+          f.type = 'bandpass';
+          f.Q.value = fm[3];
+          f.frequency.setValueAtTime(fm[0], t);
+          f.frequency.linearRampToValueAtTime(fm[1], t + 0.2);
+          f.frequency.linearRampToValueAtTime(fm[2], t + 0.6);
+          o.connect(f);
+          f.connect(g);
+        });
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.8, t + 0.06);
+        g.gain.setValueAtTime(0.8, t + 0.4);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.65);
+        g.connect(clean);
+        o.start(t);
+        o.stop(t + 0.7);
+      },
+      drill: function () {         // "under construction": a drill spinning up, hammering, winding down
+        if (!ready()) return;
+        var t = ac.currentTime, dur = 1.4;
+        var motor = ac.createOscillator(), hammer = ac.createOscillator(), depth = ac.createGain();
+        var g = ac.createGain(), body = ac.createBiquadFilter();
+        motor.type = 'sawtooth';
+        motor.frequency.setValueAtTime(60, t);
+        motor.frequency.exponentialRampToValueAtTime(190, t + 0.25);
+        motor.frequency.setValueAtTime(190, t + dur - 0.3);
+        motor.frequency.exponentialRampToValueAtTime(70, t + dur);
+        hammer.type = 'square';
+        hammer.frequency.value = 28;                 // the hammer action, chopping the volume
+        depth.gain.value = 0.35;
+        hammer.connect(depth);
+        depth.connect(g.gain);
+        body.type = 'bandpass';
+        body.frequency.value = 900;
+        body.Q.value = 0.8;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.5, t + 0.08);
+        g.gain.setValueAtTime(0.5, t + dur - 0.2);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        motor.connect(body);
+        body.connect(g);
+        g.connect(bus);
+        hiss(t, dur, 3000, 2000, 0.25, 'bandpass');  // grinding
+        motor.start(t);
+        hammer.start(t);
+        motor.stop(t + dur + 0.05);
+        hammer.stop(t + dur + 0.05);
       },
       rise: function () {          // whistle on the way up
         if (!ready()) return;
@@ -523,7 +590,7 @@
     canvas.setAttribute('aria-hidden', 'true');
     document.body.appendChild(canvas);
     var g = canvas.getContext('2d');
-    var fires = [], fallers = [], shards = [], sparks = [], chars = new Map();
+    var fires = [], fallers = [], shards = [], sparks = [], walkers = [], chars = new Map();
     var running = false, last = 0, clock = { fire: 0, char: 0, fall: 0 };
     var fireworks = W.makeFireworks(true);
 
@@ -555,8 +622,7 @@
       e.preventDefault();
       e.stopPropagation();
       if (box.closest('.xf-dead')) return;                            // already on its way: just the bang
-      if (box.classList.contains('xf-flyaway')) flyAway(box);
-      else hit(box, e.clientX, e.clientY);
+      if (!special(box)) hit(box, e.clientX, e.clientY);
     }, true);
 
     start();
@@ -576,8 +642,9 @@
         p.x += p.vx; p.y += p.vy; p.vy += 0.3; p.life -= 0.08;
         return p.life > 0;
       });
+      stepWalkers(now);
       draw();
-      if (fires.length || fallers.length || shards.length || sparks.length) requestAnimationFrame(loop);
+      if (fires.length || fallers.length || shards.length || sparks.length || walkers.length) requestAnimationFrame(loop);
       else { running = false; g.clearRect(0, 0, canvas.width, canvas.height); }
     }
 
@@ -594,6 +661,84 @@
       });
       g.fillStyle = '#ffff66';
       sparks.forEach(function (p) { g.fillRect(Math.round(p.x), Math.round(p.y), 2, 2); });
+    }
+
+    /* --- pictures with their own reactions --- */
+
+    function special(box) {
+      var gif = box.getAttribute('data-gif');
+      if (box.classList.contains('xf-flyaway')) { flyAway(box); return true; }
+      if (gif === 'robot' || /^robot-x/.test(gif || '')) return faster(box);
+      if (gif === 'skeleton') { approach(box); return true; }
+      if (gif === 'cat-globe') { sound.meow(); jolt(box); return true; }        // the kitten can't be hurt
+      // these react and then take the hit as usual
+      if (gif === 'under-construction') { sound.drill(); setTimeout(function () { rattle(box); }, 160); }
+      if (/^(dancing-baby|baby-cha-cha)/.test(gif || '')) otherBaby(box);
+      return false;
+    }
+
+    function setGif(box, name) {
+      var img = box.querySelector('img');
+      if (img) img.src = GIF + name + '.gif';
+    }
+
+    // The robot: each shot makes him dance faster, up to 4x; after that he gets shot like
+    // anything else.
+    function faster(box) {
+      var n = Number(box.getAttribute('data-speed')) || 1;
+      if (n >= 4) return false;
+      box.setAttribute('data-speed', String(n + 1));
+      setGif(box, 'robot-x' + (n + 1));
+      return true;
+    }
+
+    // One baby shot: the other one switches to a different speed (slower, normal or faster).
+    function otherBaby(box) {
+      var other = /^dancing-baby/.test(box.getAttribute('data-gif')) ? 'baby-cha-cha' : 'dancing-baby';
+      var w = document.querySelector('.xf-wrap[data-gif^="' + other + '"]');
+      if (!w || w.closest('.xf-dead')) return;
+      var now = w.getAttribute('data-speed') || 'normal';
+      var choices = ['slow', 'normal', 'fast'].filter(function (sp) { return sp !== now; });
+      var pick = choices[rnd(choices.length)];
+      w.setAttribute('data-speed', pick);
+      setGif(w, other + (pick === 'normal' ? '' : '-' + pick));
+    }
+
+    // The skeleton walks towards you: lifted out of the page and drawn ever bigger as it
+    // gets nearer (size goes as 1 / distance), moving away from a vanishing point in the
+    // middle of the window, until it walks past and is gone.
+    function approach(box) {
+      var r = box.getBoundingClientRect();
+      liftOut(box, r, true);
+      box.style.transformOrigin = '50% 100%';
+      walkers.push({ el: box, x0: r.left + r.width / 2, y0: r.bottom, h: r.height, t0: performance.now() });
+      start();
+    }
+
+    function stepWalkers(now) {
+      walkers = walkers.filter(function (w) {
+        var t = Math.min(1, (now - w.t0) / 4500);
+        var scale = 1 / (1 - 0.9 * t);
+        // the vanishing point: mostly behind him, so he comes at you rather than off sideways
+        var vx = w.x0 + (innerWidth / 2 - w.x0) * 0.3, vy = w.y0 - w.h * 0.7;
+        var dx = (w.x0 - vx) * (scale - 1), dy = (w.y0 - vy) * (scale - 1);
+        w.el.style.transform = 'translate(' + dx.toFixed(1) + 'px, ' + dy.toFixed(1) + 'px) scale(' + scale.toFixed(3) + ')';
+        w.el.style.opacity = t > 0.85 ? String((1 - t) / 0.15) : '';
+        if (t >= 1) { w.el.remove(); return false; }
+        return true;
+      });
+    }
+
+    function jolt(box) {
+      box.classList.remove('xf-hit');
+      void box.offsetWidth;
+      box.classList.add('xf-hit');
+    }
+
+    function rattle(box) {
+      box.classList.remove('xf-rattle');
+      void box.offsetWidth;
+      box.classList.add('xf-rattle');
     }
 
     /* --- hits --- */

@@ -18,10 +18,14 @@
  * bottom of whatever it was sitting in, where they carry on.
  *
  * Some pictures react in their own way instead: the waltzing couple float up and away, the
- * robot dances faster (up to 4x, then he can be shot), the skeleton walks towards you in
+ * robot goes "beep boop", sparks and dances faster (up to 4x, then he can be shot), the skeleton walks towards you in
  * forced perspective, and the kitten just meows (it is the one thing that can't be hurt).
  * Others react and still take the hit: the "under construction" sign drills, and shooting
- * one dancing baby makes the other speed up or slow down. Clicking the bare background sets off
+ * one dancing baby makes the other speed up or slow down, and shooting the NSYNC banner
+ * plays a boy-band song (an original, made for this site: audio/boyband.mp3) until the
+ * banner is shot to bits. Shoot the peacock and it caws
+ * and turns into a bird that flies diagonally, bouncing off the edges of the window; every
+ * shot turns it round and makes it faster, and it never dies. Clicking the bare background sets off
  * fireworks. Reload to get everything back. Links and buttons still work as usual.
  */
 (function () {
@@ -47,6 +51,9 @@
 
   var soundOff = false;
   try { soundOff = localStorage.getItem('spice-music') === 'off'; } catch (e) { /* ignore */ }
+  var bgMusic = null;            // the background song (music())
+  var nsync = null;              // the boy-band song, while the NSYNC banner lives
+  var BOYBAND = 'audio/boyband.mp3';   // an original late-90s boy-band-style loop, made for this site
 
   var frames = {};               // name -> { outer, inner }
   var tiled = new Map();         // element -> { t: tile, ox, oy } or { t: tile, doc: true } for the page
@@ -510,6 +517,128 @@
         if (!ready()) return;
         tone(ac.currentTime, 300, 1800, 0.8, 0.12, 'square');
       },
+      zap: function () {           // the robot's sparks: an electric crackle
+        if (!ready()) return;
+        var t = ac.currentTime;
+        for (var i = 0; i < 8; i++) hiss(t + Math.random() * 0.25, 0.02 + Math.random() * 0.03, 6000, 3000, 0.3, 'highpass');
+      },
+      cry: function () {           // a baby crying: two "waaah"s
+        if (!ready()) return;
+        var t0 = ac.currentTime;
+        [0, 0.75].forEach(function (off) {
+          var t = t0 + off, o = ac.createOscillator(), vib = ac.createOscillator(), vd = ac.createGain(), g = ac.createGain();
+          o.type = 'sawtooth';
+          o.frequency.setValueAtTime(380, t);
+          o.frequency.linearRampToValueAtTime(540, t + 0.15);
+          o.frequency.setValueAtTime(540, t + 0.45);
+          o.frequency.linearRampToValueAtTime(400, t + 0.65);
+          vib.frequency.value = 7;                   // the wobble in the wail
+          vd.gain.value = 18;
+          vib.connect(vd);
+          vd.connect(o.frequency);
+          [[1100, 3], [2700, 5]].forEach(function (fm) {
+            var f = ac.createBiquadFilter();
+            f.type = 'bandpass';
+            f.frequency.value = fm[0];
+            f.Q.value = fm[1];
+            o.connect(f);
+            f.connect(g);
+          });
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(0.45, t + 0.05);
+          g.gain.setValueAtTime(0.45, t + 0.5);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + 0.68);
+          g.connect(clean);
+          o.start(t);
+          vib.start(t);
+          o.stop(t + 0.7);
+          vib.stop(t + 0.7);
+        });
+      },
+      spooky: function () {        // the skeleton: an echoing ghostly "wooo", and rattling bones
+        if (!ready()) return;
+        var t = ac.currentTime, o = ac.createOscillator(), vib = ac.createOscillator(), vd = ac.createGain();
+        var g = ac.createGain(), tone = ac.createBiquadFilter(), echo = ac.createDelay(1), fb = ac.createGain();
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(200, t);
+        o.frequency.linearRampToValueAtTime(330, t + 0.7);
+        o.frequency.linearRampToValueAtTime(180, t + 1.8);
+        vib.frequency.value = 4;
+        vd.gain.value = 9;
+        vib.connect(vd);
+        vd.connect(o.frequency);
+        tone.type = 'lowpass';
+        tone.frequency.value = 1200;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.4, t + 0.4);
+        g.gain.setValueAtTime(0.4, t + 1.3);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 1.9);
+        echo.delayTime.value = 0.28;
+        fb.gain.value = 0.45;
+        o.connect(tone);
+        tone.connect(g);
+        g.connect(clean);
+        g.connect(echo);
+        echo.connect(fb);
+        fb.connect(echo);
+        echo.connect(clean);
+        o.start(t);
+        vib.start(t);
+        o.stop(t + 2);
+        vib.stop(t + 2);
+        setTimeout(function () { echo.disconnect(); fb.disconnect(); }, 5000);
+        for (var i = 0; i < 6; i++) hiss(t + 0.1 + i * 0.09 + Math.random() * 0.05, 0.03, 5000, 4000, 0.25, 'highpass');
+      },
+      beep: function () {          // the robot: "beep boop" (the beep's pitch varies a little)
+        if (!ready()) return;
+        var t = ac.currentTime, hi = [880, 988, 1175][Math.floor(Math.random() * 3)];
+        [[hi, 0, 0.11], [hi / 2, 0.15, 0.17]].forEach(function (b) {
+          var o = ac.createOscillator(), g = ac.createGain(), at = t + b[1], end = at + b[2];
+          o.type = 'square';
+          o.frequency.setValueAtTime(b[0], at);
+          o.frequency.exponentialRampToValueAtTime(b[0] * 0.94, end);
+          g.gain.setValueAtTime(0.0001, at);
+          g.gain.exponentialRampToValueAtTime(0.25, at + 0.01);
+          g.gain.setValueAtTime(0.25, end - 0.03);
+          g.gain.exponentialRampToValueAtTime(0.0001, end);
+          o.connect(g);
+          g.connect(clean);
+          o.start(at);
+          o.stop(end + 0.02);
+        });
+      },
+      caw: function () {           // a crow-ish "caw": a harsh, falling, raspy tone
+        if (!ready()) return;
+        var t = ac.currentTime, o = ac.createOscillator(), rasp = ac.createOscillator();
+        var depth = ac.createGain(), g = ac.createGain();
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(640, t);
+        o.frequency.linearRampToValueAtTime(700, t + 0.06);
+        o.frequency.exponentialRampToValueAtTime(430, t + 0.38);
+        rasp.type = 'square';
+        rasp.frequency.value = 90;                   // the rasp: chopping the volume fast
+        depth.gain.value = 0.3;
+        rasp.connect(depth);
+        depth.connect(g.gain);
+        [[1200, 5], [2400, 7]].forEach(function (fm) {
+          var f = ac.createBiquadFilter();
+          f.type = 'bandpass';
+          f.frequency.value = fm[0];
+          f.Q.value = fm[1];
+          o.connect(f);
+          f.connect(g);
+        });
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.6, t + 0.02);
+        g.gain.setValueAtTime(0.6, t + 0.25);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
+        g.connect(bus);
+        hiss(t, 0.35, 2500, 1500, 0.15, 'bandpass');
+        o.start(t);
+        rasp.start(t);
+        o.stop(t + 0.45);
+        rasp.stop(t + 0.45);
+      },
       fall: function () {          // cartoon whistle on the way down
         if (!ready()) return;
         tone(ac.currentTime, 1500, 260, 0.9, 0.12, 'square');
@@ -590,7 +719,7 @@
     canvas.setAttribute('aria-hidden', 'true');
     document.body.appendChild(canvas);
     var g = canvas.getContext('2d');
-    var fires = [], fallers = [], shards = [], sparks = [], walkers = [], chars = new Map();
+    var fires = [], fallers = [], shards = [], sparks = [], walkers = [], birds = [], chars = new Map();
     var running = false, last = 0, clock = { fire: 0, char: 0, fall: 0 };
     var fireworks = W.makeFireworks(true);
 
@@ -621,8 +750,9 @@
       }
       e.preventDefault();
       e.stopPropagation();
+      if (box.getAttribute('data-gif') === 'skeleton' && box.closest('.xf-dead')) { sound.spooky(); return; }
       if (box.closest('.xf-dead')) return;                            // already on its way: just the bang
-      if (!special(box)) hit(box, e.clientX, e.clientY);
+      if (!special(box, e.clientX, e.clientY)) hit(box, e.clientX, e.clientY);
     }, true);
 
     start();
@@ -638,13 +768,11 @@
       for (i = 0; clock.char >= 100 && i < 2; i++) { clock.char -= 100; stepChar(now); }
       for (i = 0; clock.fall >= 83 && i < 3; i++) { clock.fall -= 83; stepFall(); }          // ~12 fps: jerky, like a GIF
       clock.fire = Math.min(clock.fire, 33); clock.char = Math.min(clock.char, 100); clock.fall = Math.min(clock.fall, 83);
-      sparks = sparks.filter(function (p) {
-        p.x += p.vx; p.y += p.vy; p.vy += 0.3; p.life -= 0.08;
-        return p.life > 0;
-      });
+      sparks = sparks.filter(stepBit);
       stepWalkers(now);
+      stepBirds(dt / 1000);
       draw();
-      if (fires.length || fallers.length || shards.length || sparks.length || walkers.length) requestAnimationFrame(loop);
+      if (fires.length || fallers.length || shards.length || sparks.length || walkers.length || birds.length) requestAnimationFrame(loop);
       else { running = false; g.clearRect(0, 0, canvas.width, canvas.height); }
     }
 
@@ -659,21 +787,23 @@
         if (!f.r || !f.fire.w) return;
         g.drawImage(f.fire.c, f.r.left, f.r.bottom - f.fire.h * CELL, f.fire.w * CELL, f.fire.h * CELL);
       });
-      g.fillStyle = '#ffff66';
-      sparks.forEach(function (p) { g.fillRect(Math.round(p.x), Math.round(p.y), 2, 2); });
+      drawBits();
     }
 
     /* --- pictures with their own reactions --- */
 
-    function special(box) {
+    function special(box, x, y) {
       var gif = box.getAttribute('data-gif');
+      if (box.classList.contains('xf-bird')) { sound.caw(); feathers(x, y); faster2(box); return true; }   // never dies
+      if (gif === 'peacock') { sound.caw(); feathers(x, y); toBird(box); return true; }
       if (box.classList.contains('xf-flyaway')) { flyAway(box); return true; }
-      if (gif === 'robot' || /^robot-x/.test(gif || '')) return faster(box);
-      if (gif === 'skeleton') { approach(box); return true; }
+      if (gif === 'robot' || /^robot-x/.test(gif || '')) { sound.beep(); sound.zap(); zap(x, y); return faster(box); }
+      if (gif === 'skeleton') { sound.spooky(); approach(box); return true; }
       if (gif === 'cat-globe') { sound.meow(); jolt(box); return true; }        // the kitten can't be hurt
       // these react and then take the hit as usual
       if (gif === 'under-construction') { sound.drill(); setTimeout(function () { rattle(box); }, 160); }
-      if (/^(dancing-baby|baby-cha-cha)/.test(gif || '')) otherBaby(box);
+      if (/^(dancing-baby|baby-cha-cha)/.test(gif || '')) { otherBaby(box); sound.cry(); tears(box); }
+      if (gif === 'nsync') startNsync(box);
       return false;
     }
 
@@ -690,6 +820,54 @@
       box.setAttribute('data-speed', String(n + 1));
       setGif(box, 'robot-x' + (n + 1));
       return true;
+    }
+
+    // The peacock turns into a bird and takes off diagonally from where it was.
+    function toBird(box) {
+      var r = box.getBoundingClientRect();
+      liftOut(box, r, true);
+      box.classList.remove('xf-dead');             // it can always be clicked, and never dies
+      box.classList.add('xf-bird');
+      box.setAttribute('data-gif', 'bird');
+      box.style.width = box.style.height = box.style.filter = '';
+      var img = box.querySelector('img');
+      img.src = GIF + 'bird.gif';
+      img.className = 'xf-bird-gif';
+      var speed = 240, a = Math.PI / 4 + rnd(4) * Math.PI / 2;      // one of the four diagonals
+      birds.push({ el: box, x: r.left, y: r.top, vx: Math.cos(a) * speed, vy: Math.sin(a) * speed });
+      start();
+    }
+
+    // Each shot at the bird turns it round (it reverses its horizontal direction, and so
+    // faces the other way) and makes it fly faster.
+    function faster2(box) {
+      birds.forEach(function (b) {
+        if (b.el !== box) return;
+        var k = Math.min(1.35, 2500 / Math.hypot(b.vx, b.vy));
+        b.vx *= -k;
+        b.vy *= k;
+      });
+    }
+
+    // Diagonal flight, bouncing off the edges of the window like an old screensaver.
+    function stepBirds(dt) {
+      birds = birds.filter(function (b) {
+        if (!b.el.isConnected) return false;
+        var w = b.el.offsetWidth || 140, h = b.el.offsetHeight || 60;
+        b.x += b.vx * dt;
+        b.y += b.vy * dt;
+        if (b.x < 0) { b.x = 0; b.vx = Math.abs(b.vx); }
+        if (b.x + w > innerWidth) { b.x = innerWidth - w; b.vx = -Math.abs(b.vx); }
+        if (b.y < 0) { b.y = 0; b.vy = Math.abs(b.vy); }
+        if (b.y + h > innerHeight) { b.y = innerHeight - h; b.vy = -Math.abs(b.vy); }
+        b.el.style.left = Math.round(b.x) + 'px';
+        b.el.style.top = Math.round(b.y) + 'px';
+        if ((b.vx < 0) !== b.facingLeft) {          // bounced off a side: turn to face the other way
+          b.facingLeft = b.vx < 0;
+          b.el.classList.toggle('xf-bird-left', b.facingLeft);   // the GIF faces right
+        }
+        return true;
+      });
     }
 
     // One baby shot: the other one switches to a different speed (slower, normal or faster).
@@ -1157,6 +1335,7 @@
       sound.crash();
       shake();
       fires = fires.filter(function (e) { return e.el !== box && !box.contains(e.el); });
+      if (nsync && (box === nsync.banner || box.contains(nsync.banner))) stopNsync(true);   // NSYNC killed
       box.remove();
     }
 
@@ -1261,6 +1440,93 @@
       return 'rgb(' + c.map(function (v) { return Math.round(v / 51) * 51; }).join(',') + ')';
     }
 
+    // Small bits flying about: sparks from every shot, the robot's electric zaps, the
+    // babies' tears and the bird's feathers.
+    function stepBit(p) {
+      if (p.wait > 0) { p.wait--; return true; }
+      p.age = (p.age || 0) + 1;
+      if (p.kind === 'feather') {                  // drifting and swaying down
+        p.vx = p.vx * 0.96 + Math.sin(p.age * p.sway) * 0.12;
+        p.vy = Math.min(p.vy + 0.04, 1.2) * 0.98;
+        p.spin += p.vx * 0.04;
+      } else {
+        p.vy += p.kind === 'tear' ? 0.18 : 0.3;
+      }
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= p.decay || 0.08;
+      return p.life > 0 && p.y < innerHeight + 20;
+    }
+
+    function drawBits() {
+      sparks.forEach(function (p) {
+        if (p.wait > 0) return;
+        var x = Math.round(p.x), y = Math.round(p.y);
+        g.globalAlpha = Math.min(1, p.life * 1.5);
+        if (p.kind === 'zap') {
+          g.strokeStyle = p.c;
+          g.lineWidth = 2;
+          g.beginPath();
+          g.moveTo(x, y);
+          g.lineTo(x - p.vx * 2.5, y - p.vy * 2.5);
+          g.stroke();
+        } else if (p.kind === 'tear') {             // outlined, so they show up even over the fire
+          g.fillStyle = '#1e5aa8';
+          g.fillRect(x - 1, y - 1, 5, 7);
+          g.fillStyle = '#9fd8ff';
+          g.fillRect(x, y, 3, 5);
+          g.fillStyle = '#ffffff';
+          g.fillRect(x, y, 1, 2);
+        } else if (p.kind === 'feather') {
+          g.save();
+          g.translate(x, y);
+          g.rotate(p.spin);
+          g.fillStyle = p.c;
+          g.fillRect(-7, -1, 14, 3);
+          g.fillRect(-4, -2, 9, 1);
+          g.fillStyle = '#ffffff';
+          g.fillRect(-7, 0, 14, 1);              // the quill
+          g.restore();
+        } else {
+          g.fillStyle = '#ffff66';
+          g.fillRect(x, y, 2, 2);
+        }
+      });
+      g.globalAlpha = 1;
+    }
+
+    function zap(x, y) {
+      for (var i = 0; i < 26; i++) {
+        var a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+        sparks.push({ kind: 'zap', x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 2, life: 1,
+                      decay: 0.04 + Math.random() * 0.05, c: ['#ffffff', '#fff27a', '#7ae7ff'][rnd(3)] });
+      }
+      start();
+    }
+
+    // tears from both eyes, a drop at a time
+    function tears(box) {
+      var r = box.getBoundingClientRect();
+      [-1, 1].forEach(function (side) {
+        for (var i = 0; i < 9; i++) {
+          sparks.push({ kind: 'tear', x: r.left + r.width / 2 + side * r.width * 0.12, y: r.top + r.height * 0.22,
+                        vx: side * (0.6 + Math.random() * 0.8), vy: -1.5 - Math.random(), life: 1, decay: 0.02,
+                        wait: i * 6 + rnd(4) });
+        }
+      });
+      start();
+    }
+
+    function feathers(x, y) {
+      for (var i = 0; i < 14; i++) {
+        var a = Math.random() * Math.PI * 2, v = 1 + Math.random() * 3;
+        sparks.push({ kind: 'feather', x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1, life: 1,
+                      decay: 0.006 + Math.random() * 0.006, spin: Math.random() * 6, sway: 0.05 + Math.random() * 0.08,
+                      c: ['#8a4dff', '#5b2bd1', '#33e0ff', '#ffffff'][rnd(4)] });
+      }
+      start();
+    }
+
     function spark(x, y) {
       for (var i = 0; i < 10; i++) {
         var a = Math.random() * Math.PI * 2, v = 1 + Math.random() * 3;
@@ -1277,6 +1543,27 @@
     }
   }
 
+  /* ---------- NSYNC ---------- */
+
+  // Shooting the banner starts the boy-band song (looping) and pauses the background song
+  // until the banner is killed.
+  function startNsync(banner) {
+    if (nsync || soundOff) return;
+    var song = new Audio(BOYBAND);
+    song.loop = true;
+    song.volume = 0.7;
+    nsync = { song: song, banner: banner, resume: !!(bgMusic && !bgMusic.paused) };
+    if (nsync.resume) bgMusic.pause();
+    song.play().catch(function () {});
+  }
+
+  function stopNsync(resume) {
+    if (!nsync) return;
+    nsync.song.pause();
+    if (resume && nsync.resume && bgMusic && !soundOff) bgMusic.play().catch(function () {});
+    nsync = null;
+  }
+
   /* ---------- the song, distorted ---------- */
 
   // Looping, and played through Web Audio: overdriven, bit-crushed, thinned out, with a
@@ -1286,6 +1573,7 @@
   // carries on from the same place when you move to another page.
   function music() {
     var audio = new Audio(SONG);
+    bgMusic = audio;
     audio.loop = true;
     audio.preload = 'auto';
 
@@ -1322,7 +1610,7 @@
 
     button.addEventListener('click', function () {
       if (soundOff || audio.paused) { soundOff = false; play(); }
-      else { soundOff = true; audio.pause(); }
+      else { soundOff = true; audio.pause(); stopNsync(false); }
       try { localStorage.setItem('spice-music', soundOff ? 'off' : 'on'); } catch (e) { /* ignore */ }
       show();
     });

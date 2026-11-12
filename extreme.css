@@ -72,7 +72,10 @@ html.extreme:not(.web1-ready) body { visibility: hidden; }   /* until the frames
 .xf-wrap { position: relative; display: inline-block; max-width: 100%; line-height: 0; vertical-align: middle; }
 .xf-top .xf-wrap { flex: none; }
 .extreme .xf-dancer { width: auto; max-width: none; height: 130px; }
-.xf-landed { z-index: 6; margin: 0; }        /* GIFs that dropped out of something shot down */
+.xf-landed { z-index: 6; margin: 0; }
+.extreme .xf-bird { z-index: 47 !important; }                   /* the peacock, once it's a bird */
+.extreme .xf-bird-gif { display: block; width: 140px; height: auto; max-width: none; }
+.extreme .xf-bird-left .xf-bird-gif { transform: scaleX(-1); }   /* flying left: mirrored */        /* GIFs that dropped out of something shot down */
 /* themed groups (see decorations() in extreme.js) */
 .extreme .xf-peacock { display: block; width: 190px; height: auto; margin: 14px auto 0; }
 
